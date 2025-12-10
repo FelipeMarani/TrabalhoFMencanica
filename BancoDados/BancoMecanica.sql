@@ -10,6 +10,7 @@ Create table
         id bigint not null,
         nome varchar(250) not null,
         email varchar(150) not null,
+        senha varchar(500) not null,
         nascimento date not null,
         CPF varchar(11) not null,
         RG varchar(9) not null,
@@ -118,18 +119,31 @@ Values
     );
 
 Insert into
-    Funcionarios (id, nome, email, nascimento, CPF, RG, id_funcao)
+    Funcionarios (id, nome, email, senha, nascimento, CPF, RG, id_funcao)
 Values
     (
         1,
         'Felipe Silva',
         'felipesilva@gmail.com',
+        'admin@1234',
         '2005-04-23',
         '12345678901',
         null,
         1
     );
-Insert into Endereco (id, logradouro, numero, complemento, bairro, cidade, estado, cep, id_funcionario)
+
+Insert into
+    Endereco (
+        id,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado,
+        cep,
+        id_funcionario
+    )
 Values
     (
         1,
