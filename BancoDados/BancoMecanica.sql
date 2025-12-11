@@ -119,7 +119,16 @@ Values
     );
 
 Insert into
-    Funcionarios (id, nome, email, senha, nascimento, CPF, RG, id_funcao)
+    Funcionarios (
+        id,
+        nome,
+        email,
+        senha,
+        nascimento,
+        CPF,
+        RG,
+        id_funcao
+    )
 Values
     (
         1,
@@ -156,3 +165,23 @@ Values
         '06462350',
         1
     );
+
+Insert into
+    Tipo_Chamado (id, descricao)
+Values
+    (1, 'Manutenção Preventiva'),
+    (2, 'Manutenção Corretiva'),
+    (3, 'Reparação de Colisão'),
+    (4, 'Serviço de Pintura'),
+    (5, 'Troca de Óleo e Filtros'),
+    (6, 'Alinhamento e Balanceamento'),
+    (7, 'Serviço de Lavagem e Detalhamento'),
+    (8, 'Troca e Reparação de Pneus');
+
+Insert into Tipo_Veiculo(id, nome)
+Values 
+    (1, 'Carro'),
+    (2, 'Moto'),
+    (3, 'Carro esportivo'),
+    (4, 'Caminhonete'),
+    (5, 'Moto-aquática');
