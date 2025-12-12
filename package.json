@@ -1,0 +1,21 @@
+{
+  "name": "trabalhofmencanica",
+  "version": "1.0.0",
+  "description": "Trabalho final de Programação II",
+  "homepage": "https://github.com/FelipeMarani/TrabalhoFMencanica#readme",
+  "bugs": {
+    "url": "https://github.com/FelipeMarani/TrabalhoFMencanica/issues"
+  },
+  "repository": "git+https://github.com/FelipeMarani/TrabalhoFMencanica.git",
+  "license": "ISC",
+  "author": "FelipeMarani <felipejesusdasilva02@gmail.com>",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
+  }
+}
