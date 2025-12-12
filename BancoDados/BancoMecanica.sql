@@ -4,7 +4,7 @@ Create table
         nome varchar(250) not null,
         descricao varchar(500) not null,
         primary key (id)
-    );
+    )
 Create table
     Funcionarios (
         id bigint not null,
@@ -13,11 +13,11 @@ Create table
         senha varchar(500) not null,
         nascimento date not null,
         CPF varchar(11) not null,
-        RG varchar(9),
+        RG varchar(9) not null,
         id_funcao bigint not null,
         primary key (id),
-        foreign key (id_funcao) references Funcao (id)
-    );
+        foreign key (id_funcao) references Funcao (id),
+    )
 Create table
     Endereco (
         id bigint not null,
@@ -31,7 +31,7 @@ Create table
         id_funcionario bigint not null,
         primary key (id),
         foreign key (id_funcionario) references Funcionarios (id)
-    );
+    )
 create table
     Cliente (
         id bigint not null,
@@ -40,14 +40,14 @@ create table
         nascimento date not null,
         cpf varchar(11) not null,
         rg varchar(9),
-        primary key (id)
-    );
+        primary key (id),
+    )
 create table
     Tipo_Veiculo (
         id bigint not null,
         nome varchar(250) not null,
         primary key (id)
-    );
+    )
 Create table
     Veiculo (
         id bigint not null,
@@ -59,13 +59,13 @@ Create table
         primary key (id),
         foreign key (id_Cliente) references Cliente (id),
         foreign key (id_TpVeiculo) references Tipo_Veiculo (id)
-    );
+    )
 create table
     Tipo_Chamado (
         id bigint not null,
         descricao varchar(250) not null,
         primary key (id)
-    );
+    )
 Create table
     Chamados (
         id bigint not null,
@@ -78,7 +78,7 @@ Create table
         foreign key (id_Cliente) references Cliente (id),
         foreign key (id_Veiculo) references Veiculo (id),
         foreign key (id_TPchamado) references Tipo_Chamado (id)
-    );
+    )
 Create table
     Fila_Chamados (
         id bigint not null,
@@ -87,7 +87,7 @@ Create table
         primary key (id),
         foreign key (id_funcionario) references Funcionarios (id),
         foreign key (id_Chamado) references Chamados (id)
-    );
+    )
 Insert into
     Funcao (id, nome, descricao)
 Values
@@ -119,16 +119,7 @@ Values
     );
 
 Insert into
-    Funcionarios (
-        id,
-        nome,
-        email,
-        senha,
-        nascimento,
-        CPF,
-        RG,
-        id_funcao
-    )
+    Funcionarios (id, nome, email, senha, nascimento, CPF, RG,)
 Values
     (
         1,
@@ -167,6 +158,11 @@ Values
     );
 
 Insert into
+    Alinhamento_funcao (id, id_funcao, id_funcionario)
+values
+    (1, 1, 1);
+
+Insert into
     Tipo_Chamado (id, descricao)
 Values
     (1, 'Manutenção Preventiva'),
@@ -178,8 +174,9 @@ Values
     (7, 'Serviço de Lavagem e Detalhamento'),
     (8, 'Troca e Reparação de Pneus');
 
-Insert into Tipo_Veiculo(id, nome)
-Values 
+Insert into
+    Tipo_Veiculo (id, nome)
+Values
     (1, 'Carro'),
     (2, 'Moto'),
     (3, 'Carro esportivo'),
