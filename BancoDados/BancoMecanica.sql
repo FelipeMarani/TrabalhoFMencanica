@@ -1,19 +1,31 @@
+Drop table if exists Endereco;
+
+Drop table if exists Fila_Chamados;
+
+Drop table if exists Alinhamento_funcao;
+
+Drop table if exists Chamados;
+
+Drop table if exists Veiculo;
+
+Drop table if exists Cliente;
+
+Drop table if exists Funcionarios;
+
+Drop table if exists Funcao;
+
+Drop table if exists Tipo_Veiculo;
+
+Drop table if exists Tipo_Chamado;
+
+Drop table if exists Status_Chamado;
+
 Create table
     Funcao (
         id bigint not null,
         nome varchar(250) not null,
         descricao varchar(500) not null,
         primary key (id)
-    );
-
-Create table
-    Alinhamento_funcao (
-        id bigint not null,
-        id_funcao bigint not null,
-        id_funcionario bigint not null,
-        primary key (id),
-        foreign key (id_funcao) references Funcao (id),
-        foreign key (id_funcionario) references Funcionarios (id)
     );
 
 Create table
@@ -29,6 +41,16 @@ Create table
     );
 
 Create table
+    Alinhamento_funcao (
+        id bigint not null,
+        id_funcao bigint not null,
+        id_funcionario bigint not null,
+        primary key (id),
+        foreign key (id_funcao) references Funcao (id),
+        foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE
+    );
+
+Create table
     Endereco (
         id bigint not null,
         logradouro varchar(250) not null,
@@ -40,7 +62,7 @@ Create table
         cep varchar(8) not null,
         id_funcionario bigint not null,
         primary key (id),
-        foreign key (id_funcionario) references Funcionarios (id)
+        foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE
     );
 
 create table
@@ -51,7 +73,7 @@ create table
         nascimento date not null,
         cpf varchar(11) not null,
         rg varchar(9),
-        primary key (id),
+        primary key (id)
     );
 
 create table
@@ -70,7 +92,7 @@ Create table
         id_Cliente bigint not null,
         id_TpVeiculo bigint not null,
         primary key (id),
-        foreign key (id_Cliente) references Cliente (id),
+        foreign key (id_Cliente) references Cliente (id) ON DELETE CASCADE,
         foreign key (id_TpVeiculo) references Tipo_Veiculo (id)
     );
 
@@ -108,8 +130,8 @@ Create table
         id_funcionario bigint not null,
         id_Chamado bigint not null,
         primary key (id),
-        foreign key (id_funcionario) references Funcionarios (id),
-        foreign key (id_Chamado) references Chamados (id)
+        foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE,
+        foreign key (id_Chamado) references Chamados (id) ON DELETE CASCADE
     );
 
 Insert into
@@ -143,7 +165,7 @@ Values
     );
 
 Insert into
-    Funcionarios (id, nome, email, senha, nascimento, CPF, RG,)
+    Funcionarios (id, nome, email, senha, nascimento, CPF, RG)
 Values
     (
         1,
@@ -152,8 +174,7 @@ Values
         'admin@1234',
         '2005-04-23',
         '12345678901',
-        null,
-        1
+        '123456789'
     );
 
 Insert into
