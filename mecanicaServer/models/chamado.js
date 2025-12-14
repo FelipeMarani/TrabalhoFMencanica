@@ -2,14 +2,14 @@
 
 module.exports = (sequelize, DataTypes) => {
     const Chamado = sequelize.define(
-        "Chamados",
+        "Chamado",
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
             descricao: DataTypes.STRING,
-            img_Veiculo: DataTypes.Bytea,
+            img_Veiculo: DataTypes.BLOB,
             id_Cliente: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,

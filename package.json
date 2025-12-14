@@ -15,7 +15,19 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.6",
+    "@mui/material": "^7.3.6",
+    "@mui/styled-engine-sc": "^7.3.6",
+    "bcrypt": "^5.1.1",
+    "cls-hooked": "^4.2.2",
     "express": "^5.2.1",
-    "nodemon": "^3.1.11"
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.11",
+    "pg": "^8.12.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.3",
+    "styled-components": "^6.1.19"
   }
 }

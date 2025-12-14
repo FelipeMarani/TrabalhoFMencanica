@@ -58,7 +58,7 @@ const deletafuncionario = async (req, res) => {
         if (!id) {
             return res.status(400).json({ message: "id é obrigatório" });
         }
-        await funcionarioRepository.deletafuncionario({ id });
+        await funcionarioRepository.deletaFuncionario({ id });
         res.status(200).json({ message: "Funcionário removido com sucesso." });
     } catch (error) {
         console.error("Erro ao deletar funcionário:", error);
