@@ -1,28 +1,27 @@
 "use strict"
 
 module.exports = (sequelize, DataTypes) => {
-    const tpVeiculo = sequelize.define(
-        "tpVeiculo",
+    const stChamado = sequelize.define(
+        "stChamado",
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
-            nome: DataTypes.STRING,
-
+            descricao: DataTypes.STRING,
         },
         {
             sequelize,
-            tableName: "Tipo_Veiculo",
+            tableName: "Status_Chamado",
             schema: "public",
             freezeTableName: true,
             timestamps: false,
         },
     );
 
-    tpVeiculo.associate = function (models) {
-        tpVeiculo.hasMany(models.Veiculo, {
-            foreignKey: "id_tpVeiculo",
+    stChamado.associate = function (models) {
+        stChamado.hasMany(models.quChamado, {
+            foreignKey: "id_stChamado",
             sourceKey: "id",
         });
     };

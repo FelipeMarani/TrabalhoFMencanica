@@ -129,9 +129,11 @@ Create table
         id bigint not null,
         id_funcionario bigint not null,
         id_Chamado bigint not null,
+        id_stChamado bigint not null,
         primary key (id),
         foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE,
-        foreign key (id_Chamado) references Chamados (id) ON DELETE CASCADE
+        foreign key (id_Chamado) references Chamados (id) ON DELETE CASCADE,
+        foreign key (id_stChamado) references Status_Chamado (id) ON DELETE CASCADE
     );
 
 Insert into

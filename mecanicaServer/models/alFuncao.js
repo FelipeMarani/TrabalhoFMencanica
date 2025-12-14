@@ -1,44 +1,41 @@
 "use strict"
 
 module.exports = (sequelize, DataTypes) => {
-    const Veiculo = sequelize.define(
-        "Veiculo",
+    const alFuncao = sequelize.define(
+        "alFuncao",
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
-            modelo: DataTypes.STRING,
-            placa: DataTypes.STRING,
-            marca: DataTypes.STRING,
-            id_cliente: {
+            id_funcao: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
-            id_tpVeiculo: {
+            id_funcionario: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             }
-
         },
         {
             sequelize,
-            tableName: "Veiculo",
+            tableName: "Alinhamento_funcao",
             schema: "public",
             freezeTableName: true,
             timestamps: false,
         },
     );
 
-    Veiculo.associate = function (models) {
-        Veiculo.belongsTo(models.Cliente, {
-            foreignKey: "id_cliente",
+    alFuncao.associate = function (models) {
+        alFuncao.belongsTo(models.Funcao, {
+            foreignKey: "id_funcao",
             sourceKey: "id",
         });
     };
-    Veiculo.associate = function(models) {
-        Veiculo.belongsTo(models.tpVeiculo, {
-            foreignKey: "id_tpVeiculo",
+
+    alFuncao.associate = function (models) {
+        alFuncao.belongsTo(models.Funcionario, {
+            foreignKey: "id_funcionario",
             sourceKey: "id",
         });
     };

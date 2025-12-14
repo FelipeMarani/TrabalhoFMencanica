@@ -31,10 +31,24 @@ module.exports = (sequelize, DataTypes) => {
             timestamps: false,
         },
     );
+
     Chamado.associate = function (models) {
         Chamado.belongsTo(models.Chamado, {
             foreignKey: "id_Cliente",
             sourceKey: "id",
         });
     }
+    Chamado.associate = function (models) {
+        Chamado.belongsTo(models.Chamado, {
+            foreignKey: "id_Veiculo",
+            sourceKey: "id",
+        });
+    }
+    Chamado.associate = function (models) {
+        Chamado.belongsTo(models.Chamado, {
+            foreignKey: "id_TPchamado",
+            sourceKey: "id",
+        });
+    }
+
 }
