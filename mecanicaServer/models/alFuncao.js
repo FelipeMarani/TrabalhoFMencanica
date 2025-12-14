@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         alFuncao.belongsTo(models.Funcao, {
             foreignKey: "id_funcao",
             sourceKey: "id",
+            as: "Funcao",
         });
     };
 
@@ -37,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         alFuncao.belongsTo(models.Funcionario, {
             foreignKey: "id_funcionario",
             sourceKey: "id",
+            as: "Funcionario",
         });
     };
 }

@@ -6,13 +6,13 @@ const chamadoRouter = express.Router();
 const quChamadoRouter = express.Router();
 
 //POST /chamado/novo - criar um novo chamado
-chamadoRouter.post("/chamado/novo", ChamadoService.criaNovoChamado);
+chamadoRouter.post("/chamado/novo", ChamadoService.novoChamado);
 
 //GET /chamado/lista - listar todos os chamados da fila
-chamadoRouter.get("/chamado/lista", quChamadosService.retornaTodosChamados);
+chamadoRouter.get("/chamado/lista", quChamadosService.listaChamados);
 
 //GET /chamado/lista/pesquisa - pesquisar chamado específico
-quChamadoRouter.get("/chamado/lista/pesquisa", quChamadosService.retornaChamadoEspecifico);
+quChamadoRouter.get("/chamado/lista/pesquisa", quChamadosService.pesquisaChamado);
 
 //PUT /chamado/lista/status - atualiza status do chamado
 quChamadoRouter.put("/chamado/lista/edita", quChamadosService.atualizaChamado);

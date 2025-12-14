@@ -7,10 +7,10 @@ const alFuncaoRouter = express.Router();
 alFuncaoRouter.post("/cadastro/controleFuncao", alFuncaoService.criaAlFuncao);
 
 //GET /controleFuncao/lista - retorna todos os alinhamentos de funções cadastradas
-alFuncaoRouter.get("/controleFuncao/lista", alFuncaoService.retornaTodosAlFuncao);
+alFuncaoRouter.get("/controleFuncao/lista", alFuncaoService.listaAlFuncao);
 
 //GET /controleFuncao/lista/pesquisa - retorna todos os alinhamentos de função de forma específica
-alFuncaoRouter.get("/controleFuncao/lista/pesquisa", alFuncaoService.retonaAlFuncaoEspecifica);
+alFuncaoRouter.get("/controleFuncao/lista/pesquisa", alFuncaoService.pesquisaAlFuncao);
 
 //PUT /controleFuncao/lista/edita - atualizar os alinhamentos existentes
 alFuncaoRouter.put("/controleFuncao/lista/edita", alFuncaoService.atualizaAlFuncao);

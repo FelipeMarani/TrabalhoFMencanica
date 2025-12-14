@@ -33,22 +33,30 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     Chamado.associate = function (models) {
-        Chamado.belongsTo(models.Chamado, {
+        Chamado.belongsTo(models.Cliente, {
             foreignKey: "id_Cliente",
-            sourceKey: "id",
+            targetKey: "id",
+            as: "Cliente",
         });
-    }
-    Chamado.associate = function (models) {
-        Chamado.belongsTo(models.Chamado, {
-            foreignKey: "id_Veiculo",
-            sourceKey: "id",
-        });
-    }
-    Chamado.associate = function (models) {
-        Chamado.belongsTo(models.Chamado, {
-            foreignKey: "id_TPchamado",
-            sourceKey: "id",
-        });
-    }
 
+        Chamado.belongsTo(models.Veiculo, {
+            foreignKey: "id_Veiculo",
+            targetKey: "id",
+            as: "Veiculo",
+        });
+
+        Chamado.belongsTo(models.tpChamado, {
+            foreignKey: "id_TPchamado",
+            targetKey: "id",
+            as: "TipoChamado",
+        });
+    };
+    Chamado.associate = function (models) {
+        Chamado.hasMany(models.Chamado, {
+            foreignKey: "id_chamado",
+            sourceKey: "id",
+        });
+    };
+
+    return Chamado;
 }

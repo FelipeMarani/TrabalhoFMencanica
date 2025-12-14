@@ -7,10 +7,10 @@ const clienteRouter = express.Router();
 clienteRouter.post("/cria/cliente", clienteService.criaCliente);
 
 //GET /cliente/lista - retorna todos os clientes
-clienteRouter.get("/cliente/lista", clienteService.retornaTodosClientes);
+clienteRouter.get("/cliente/lista", clienteService.listaClientes);
 
 //GET /cliente/lista/pesquisa - retorna um cliente especifico
-clienteRouter.get("/cliente/lista/pesquisa", clienteService.retornaClienteIdCpfNome)
+clienteRouter.get("/cliente/lista/pesquisa", clienteService.pesquisaCliente)
 
 //Put /cliente/lista/edita - atualizar cadastro do cliente
 clienteRouter.put("/cliente/lista/edita", clienteService.atualizaCliente);
