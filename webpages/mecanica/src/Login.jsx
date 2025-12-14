@@ -1,95 +1,121 @@
 import React from "react";
 import axios from "axios";
 
-import { Alert, Button, Snackbar, TextField, Stack } from "@mui/material";
+import { Alert, Box, Button, Snackbar, Stack, TextField } from "@mui/material";
 
 export default function Login({ handleLogin }) {
-  const [useremail, setUseremail] = React.useState("");
-  const [passwd, setPasswd] = React.useState("");
+    const [useremail, setUseremail] = React.useState("");
+    const [passwd, setPasswd] = React.useState("");
 
-  const [openMessage, setOpenMessage] = React.useState(false);
-  const [messageText, setMessageText] = React.useState("");
-  const [messageSeverity, setMessageSeverity] = React.useState("success");
+    const [openMenssage, setOpenMessage] = React.useState(false);
+    const [menssageText, setMenssageText] = React.useState("");
+    const [menssageSeverity, setMenssageSeverity] = React.useState("success");
 
     async function enviaLogin(event) {
-      event.preventDefault();
-      try {
-        const response = await axios.post("http://localhost:3030/login", {
-          email: useremail,
-          senha: passwd,
-        });
-
-        if (response.status >= 200 && response.status <= 300) {
-          localStorage.setItem("token", response.data.token);
-          handleLogin(true, useremail);
-          setOpenMessage(true);
-          setMessageText("Login realizado com sucesso");
-          setMessageSeverity("success");
-        } else {
-          setOpenMessage(true);
-          setMessageText("Falha na autenticação");
-          setMessageSeverity("error");
+        event.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:5173/Login", {
+                useremail: useremail,
+                passwd: passwd,
+            });
+            if (response.status >= 200 && response.status <= 300) {
+                //Salva o token JWT na sessão
+                localStorage.setItem("token", response.data.token);
+                //Seta o estado de Login caso tudo certo com a verificação, passando o useremail
+                handleLogin(true, useremail);
+            }
+            else {
+                //No caso da falha
+                console.error("Falha na autenticação");
+                setOpenMessage(true);
+                setMenssageText("falha na autenticação!");
+                setMenssageSeverity("error");
+            }
+        } catch (error) {
+            console.error("Falha na autenticação:", error);
+            setOpenMessage(true);
+            setMenssageText("Falha na autenticação");
+            setMenssageSeverity("error");
         }
-      } catch (error) {
-        console.error("Falha na autenticação", error);
-        setOpenMessage(true);
-        setMessageText("Falha na autenticação");
-        setMessageSeverity("error");
-      }
     }
 
     function cancelaLogin() {
-      if (useremail !== "" || passwd !== "") {
-        setUseremail("");
-        setPasswd("");
-      }
-      setOpenMessage(true);
-      setMessageText("Login cancelado");
-      setMessageSeverity("warning");
+        if (useremail !== "" || passwd !== "") {
+            setUseremail("");
+            setPasswd("");
+        }
+        setOpenMessage(true);
+        setMenssageText("Login cancelado!");
+        setMenssageSeverity("warning");
     }
 
     function handleCloseMessage(_, reason) {
-      if (reason === "clickaway") return;
-      setOpenMessage(false);
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenMessage(false);
     }
 
-    return (
-      <Stack spacing={2} sx={{ maxWidth: 360, mx: "auto", mt: 8 }}>
-        <h1>Acesse o sistema</h1>
-        <form onSubmit={enviaLogin}>
-          <Stack spacing={2}>
-            <TextField
-              label="E-mail"
-              type="email"
-              value={useremail}
-              onChange={(e) => setUseremail(e.target.value)}
-              required
-              fullWidth
-            />
-            <TextField
-              label="Senha"
-              type="password"
-              value={passwd}
-              onChange={(e) => setPasswd(e.target.value)}
-              required
-              fullWidth
-            />
-            <Stack direction="row" spacing={1}>
-              <Button type="submit" variant="contained" fullWidth>
-                Login
-              </Button>
-              <Button type="button" variant="outlined" fullWidth onClick={cancelaLogin}>
-                Cancelar
-              </Button>
-            </Stack>
-          </Stack>
-        </form>
 
-        <Snackbar open={openMessage} autoHideDuration={4000} onClose={handleCloseMessage}>
-          <Alert severity={messageSeverity} onClose={handleCloseMessage} sx={{ width: "100%" }}>
-            {messageText}
-          </Alert>
-        </Snackbar>
-      </Stack>
-    );
+    return (
+        <Box style={{ maxWidth: "300px" }}>
+            <Stack spacing={2}>
+                <TextField required id="useremail-input"
+                    label="Email: "
+                    size="small"
+                    value={useremail}
+                    onChange={(event) => {
+                        setUseremail(event.target.value);
+                    }} />
+                <TextField
+                    required
+                    id="passwd-input"
+                    label="Password: "
+                    type="password"
+                    size="small"
+                    value={passwd}
+                    onChange={(event) => {
+                        setPasswd(event.target.value);
+                    }}
+                />
+                <Stack direction={"row"} spacing={3}>
+                    <Button
+                    className="enviar-login"
+                        variant="contained"
+                        style={{
+                            maxWidth: "100px",
+                            maxHeight: "100px",
+                        }}
+                        onClick={enviaLogin}>
+                        Enviar
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        style={{
+                            maxWidth: "100px",
+                            minWidth: "100px",
+                        }}
+                        color="error"
+                        onClick={cancelaLogin}
+                    >
+                        Cancelar
+                    </Button>
+                </Stack>
+                <Snackbar
+                    open={openMenssage}
+                    autoHideDuration={6000}
+                    onClose={handleCloseMessage}
+                >
+                    <Alert
+                        severity={menssageSeverity}
+                        onClose={handleCloseMessage}
+                    >
+                        {menssageText}
+                    </Alert>
+                </Snackbar>
+
+            </Stack>
+        </Box>
+
+    )
 }
