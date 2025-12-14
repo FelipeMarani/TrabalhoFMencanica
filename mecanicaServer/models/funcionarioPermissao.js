@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.BIGINT,
                 primaryKey: true,
                 references: {
-                    model: "Permisssao",
+                    model: "Permissao",
                     key: "id",
                 },
             },
@@ -30,17 +30,17 @@ module.exports = (sequelize, DataTypes) => {
         },
     );
 
-    UsuarioPermissao.associate = function (models) {
-        UsuarioPermissao.belongsTo(models.Usuario, {
+    FuncionarioPermissao.associate = function (models) {
+        FuncionarioPermissao.belongsTo(models.Funcionario, {
             foreignKey: "email",
             targetKey: "email",
         });
-        UsuarioPermissao.belongsTo(models.Permissao, {
+        FuncionarioPermissao.belongsTo(models.Permissao, {
             foreignKey: "id_permissao",
             targetKey: "id",
             as: "Permissao",
         });
     };
 
-    return UsuarioPermissao;
+    return FuncionarioPermissao;
 };

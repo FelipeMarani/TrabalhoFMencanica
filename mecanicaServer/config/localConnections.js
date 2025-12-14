@@ -1,9 +1,9 @@
-const {Sequelize} = require("sequilize");
+const {Sequelize} = require("sequelize");
 const cls = require("cls-hooked");
 const transactionNamespace = cls.createNamespace("transaction_namespace");
 Sequelize.useCLS(transactionNamespace);
 
-const sequilize = new Sequelize({
+const sequelize = new Sequelize({
     host: "localhost",
     port: "5432",
     database: "mecanica",
@@ -21,4 +21,4 @@ const sequilize = new Sequelize({
 
 });
 
-module.exports = sequilize;
+module.exports = sequelize;
