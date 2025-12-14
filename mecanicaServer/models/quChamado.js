@@ -34,19 +34,22 @@ module.exports = (sequelize, DataTypes) => {
     quChamado.associate = function (models) {
         quChamado.belongsTo(models.Funcionario, {
             foreignKey: "id_funcionario",
-            sourceKey: "id",
+            targetKey: "id",
+            as: "Funcionario",
         });
-    };
-    quChamado.associate = function (models) {
+
         quChamado.belongsTo(models.Chamado, {
-            foreignKey: "id_chamado",
-            sourceKey: "id",
+            foreignKey: "id_Chamado",
+            targetKey: "id",
+            as: "Chamado",
         });
-    };
-    quChamado.associate = function (models) {
+
         quChamado.belongsTo(models.stChamado, {
             foreignKey: "id_stChamado",
-            sourceKey: "id",
+            targetKey: "id",
+            as: "StatusChamado",
         });
     };
+
+    return quChamado;
 }

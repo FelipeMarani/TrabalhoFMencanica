@@ -20,10 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         },
     );
 
-    tpChamado.associate = function(models) {
+    tpChamado.associate = function (models) {
         tpChamado.hasMany(models.Chamado, {
-            foreignKey: "id_tpÇhamado",
-            surceKey: "id",
+            foreignKey: "id_TPchamado",
+            sourceKey: "id",
+            as: "Chamados",
         });
     };
+
+    return tpChamado;
 }

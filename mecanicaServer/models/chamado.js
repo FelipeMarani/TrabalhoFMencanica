@@ -50,11 +50,11 @@ module.exports = (sequelize, DataTypes) => {
             targetKey: "id",
             as: "TipoChamado",
         });
-    };
-    Chamado.associate = function (models) {
-        Chamado.hasMany(models.Chamado, {
-            foreignKey: "id_chamado",
+
+        Chamado.hasMany(models.quChamado, {
+            foreignKey: "id_Chamado",
             sourceKey: "id",
+            as: "FilasChamados",
         });
     };
 

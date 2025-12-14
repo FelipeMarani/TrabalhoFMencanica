@@ -7,10 +7,10 @@ const enderecoRouter = express.Router();
 enderecoRouter.post("/cadastro/funcionario/endereco", enderecoService.criaEndereco);
 
 //GET /funcionario/endereco/lista - retorna todos os endereço dos funcionários
-enderecoRouter.get("/funcionario/endereco", enderecoService.retornaTodosEndereco);
+enderecoRouter.get("/funcionario/endereco", enderecoService.listaEnderecos);
 
 //GET /funcionario/endereco/lista/pesquisa - retorna um endereço específico
-enderecoRouter.get("/funcionario/endereco/lista/pesquisa", enderecoService.retornaEnderecoporFuncionario);
+enderecoRouter.get("/funcionario/endereco/lista/pesquisa", enderecoService.pesquisaEndereco);
 
 //PUT /funcionario/endereco/lista/edita - editar o endereço de um funcionário específico
 enderecoRouter.put("/funcionario/endereco/lista/edita", enderecoService.atualizaEndereco);

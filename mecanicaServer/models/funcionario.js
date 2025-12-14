@@ -26,16 +26,24 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     Funcionario.associate = function (models) {
-        Funcionario.hasMany(models.alinhamento_funcao, {
+        Funcionario.hasMany(models.Endereco, {
             foreignKey: "id_funcionario",
             sourceKey: "id",
+            as: "Enderecos",
         });
-    };
 
-    Funcionario.associate = function (models) {
+        Funcionario.hasMany(models.alFuncao, {
+            foreignKey: "id_funcionario",
+            sourceKey: "id",
+            as: "AlFuncoes",
+        });
+
         Funcionario.hasMany(models.Fila_Chamados, {
             foreignKey: "id_funcionario",
             sourceKey: "id",
+            as: "FilasChamados",
         });
     };
+
+    return Funcionario;
 }

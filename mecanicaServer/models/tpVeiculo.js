@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
         tpVeiculo.hasMany(models.Veiculo, {
             foreignKey: "id_tpVeiculo",
             sourceKey: "id",
+            as: "Veiculos",
         });
     };
+
+    return tpVeiculo;
 }

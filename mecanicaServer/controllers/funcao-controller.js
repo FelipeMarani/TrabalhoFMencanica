@@ -7,10 +7,10 @@ const funcaoRouter = express.Router();
 funcaoRouter.post("/funcao/novafuncao", funcaoService.novaFuncao);
 
 //GET /funcao/lista - retornar todas as funções cadastradas
-funcaoRouter.get("/funcao/lista", funcaoService.retornarTodasFuncoes);
+funcaoRouter.get("/funcao/lista", funcaoService.listaFuncao);
 
 //GET /funcao/lista/pesquisa - retornar uma função específica
-funcaoRouter.get("/funcao/lista/pesquisa", funcaoService.retornaFuncaoEspecifica);
+funcaoRouter.get("/funcao/lista/pesquisa", funcaoService.pesquisaFuncao);
 
 //PUT /funcao/lista/edita - para editar uma função já cadastrada
 funcaoRouter.put("/funcao/lista/edita", funcaoService.editaFuncao);

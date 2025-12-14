@@ -21,9 +21,12 @@ module.exports = (sequelize, DataTypes) => {
         },
     );
     Funcao.associate = function (models) {
-        Funcao.hasMany(models.alinhamento_funcao, {
+        Funcao.hasMany(models.alFuncao, {
             foreignKey: "id_funcao",
-            sourceKey: "id,"
+            sourceKey: "id",
+            as: "Funcoes",
         });
     };
+
+    return Funcao;
 }

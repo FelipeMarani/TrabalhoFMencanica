@@ -33,13 +33,16 @@ module.exports = (sequelize, DataTypes) => {
     Veiculo.associate = function (models) {
         Veiculo.belongsTo(models.Cliente, {
             foreignKey: "id_cliente",
-            sourceKey: "id",
+            targetKey: "id",
+            as: "Cliente",
         });
-    };
-    Veiculo.associate = function(models) {
+
         Veiculo.belongsTo(models.tpVeiculo, {
             foreignKey: "id_tpVeiculo",
-            sourceKey: "id",
+            targetKey: "id",
+            as: "TipoVeiculo",
         });
     };
+
+    return Veiculo;
 }

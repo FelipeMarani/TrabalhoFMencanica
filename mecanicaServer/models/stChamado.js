@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         stChamado.hasMany(models.quChamado, {
             foreignKey: "id_stChamado",
             sourceKey: "id",
+            as: "FilasChamados",
         });
     };
+
+    return stChamado;
 }

@@ -1,8 +1,5 @@
 "use strict";
 
-module.exports =
-    "use strict";
-
 module.exports = (sequelize, DataType) => {
     const Endereco = sequelize.define(
         "Endereco",
@@ -27,16 +24,18 @@ module.exports = (sequelize, DataType) => {
             sequelize,
             tableName: "Endereco",
             schema: "public",
-            freezeTablename: true,
+            freezeTableName: true,
             timestamps: false,
         },
     );
 
     Endereco.associate = function (models) {
-        Endereco.belongsTo(models.Endereco, {
-            foreingKey: "id_funcionario",
+        Endereco.belongsTo(models.Funcionario, {
+            foreignKey: "id_funcionario",
             sourceKey: "id",
+            as: "Funcionario",
         });
-    }
+    };
 
+    return Endereco;
 }
