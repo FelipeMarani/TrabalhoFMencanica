@@ -43,6 +43,13 @@ module.exports = (sequelize, DataTypes) => {
             sourceKey: "id",
             as: "FilasChamados",
         });
+
+        Funcionario.belongsToMany(models.Permissao, {
+            through: models.FuncionarioPermissao,
+            foreignKey: "email",
+            otherKey: "id_permissao",
+            as: "Permissoes",
+        });
     };
 
     return Funcionario;

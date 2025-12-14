@@ -37,7 +37,8 @@ Create table
         nascimento date not null,
         CPF varchar(11) not null,
         RG varchar(9) not null,
-        primary key (id)
+        primary key (id),
+        UNIQUE (email)
     );
 
 Create table
@@ -63,6 +64,22 @@ Create table
         id_funcionario bigint not null,
         primary key (id),
         foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE
+    );
+
+Create table
+    Permissao (
+        id bigint not null,
+        descricao varchar(500) not null,
+        primary key (id)
+    );
+
+create table
+    Funcionario_Permissao (
+        email varchar NOT NULL,
+        id_permissao bigint NOT NULL,
+        PRIMARY KEY (email, id_permissao),
+        CONSTRAINT FK_usuario_permissao_usuario FOREIGN KEY (email) REFERENCES Funcionarios (email),
+        CONSTRAINT FK_usuario_permissao_permissao FOREIGN KEY (id_permissao) REFERENCES Permissao (id)
     );
 
 create table
@@ -241,3 +258,17 @@ values
     (6, 'Aguardando Aprovação do Cliente'),
     (7, 'Em Espera'),
     (8, 'Reaberto');
+
+Insert into
+    Permissao (id, descricao)
+Values
+    (1, 'Gerencia'),
+    (2, 'Atendente'),
+    (3, 'Rh'),
+    (4, 'Mecanico'),
+    (5, 'Estagiário');
+
+Insert into
+    Funcionario_Permissao (email, id_permissao)
+Values
+    ('felipesilva@gmail.com', 1);
