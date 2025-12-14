@@ -10,7 +10,7 @@ module.exports = (sequelize, DataType) => {
             },
             email: DataType.STRING,
             nome: DataType.STRING,
-            nascimento: DataType.date,
+            nascimento: DataType.DATE,
             cpf: DataType.STRING,
             rg: DataType.STRING,
         },
@@ -26,13 +26,16 @@ module.exports = (sequelize, DataType) => {
     Cliente.associate = function (models) {
         Cliente.hasMany(models.Chamado, {
             foreignKey: "id_Cliente",
-            souceKey: "id",
+            sourceKey: "id",
+            as: "Chamados",
         });
-    };
-    Cliente.associate = function (models) {
+
         Cliente.hasMany(models.Veiculo, {
-            foreignKey: "id_Cliente",
-            souceKey: "id",
+            foreignKey: "id_cliente",
+            sourceKey: "id",
+            as: "Veiculos",
         });
     };
+
+    return Cliente;
 }
