@@ -8,12 +8,17 @@ const listaStChamado = async () => {
 
 // Função para pesquisar status por id ou descrição
 const pesquisaStChamado = async (termoBusca) => {
+    const conditions = [
+        { descricao: { [Op.iLike]: `%${termoBusca}%` } },
+    ];
+    
+    if (!isNaN(termoBusca) && Number.isInteger(Number(termoBusca))) {
+        conditions.push({ id: Number(termoBusca) });
+    }
+    
     return await model.stChamado.findAll({
         where: {
-            [Op.or]: [
-                { id: termoBusca },
-                { descricao: { [Op.iLike]: `%${termoBusca}%` } },
-            ],
+            [Op.or]: conditions,
         },
     });
 };

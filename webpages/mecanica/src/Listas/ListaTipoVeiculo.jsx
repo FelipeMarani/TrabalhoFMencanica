@@ -32,7 +32,7 @@ export default function ListaTipoVeiculo({ onEdit }) {
       const response = await axios.get("http://localhost:3030/tipo_veiculo", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTiposVeiculo(response.data);
+      setTiposVeiculo(Array.isArray(response.data) ? response.data : response.data.tiposVeiculo || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar tipos de veículo:", error);

@@ -21,29 +21,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import FolderIcon from '@mui/icons-material/Folder';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
-const cadastrosItens = [
-  "Alinhamento de Função",
-  "Chamado",
-  "Cliente",
-  "Função",
-  "Funcionário",
-  "Status para Chamado",
-  "Tipos de Chamados",
-  "Tipos de Veículos",
-];
-
-const listasItens = [
-  "Funções Alinhadas",
-  "Lista de Chamados",
-  "Lista de Clientes",
-  "Lista de Funções",
-  "Lista de Funcionários",
-  "Lista de Andamento de Chamados",
-  "Listar tipos de Chamado",
-  "Listar Tipos de Veiculos",
-];
-
-export default function Home({ userName, userCargo, userFuncao, onLogout }) {
+export default function Home({ userName, userCargo, userFuncao, onLogout, onSelectPage, cadastrosItens = [], listasItens = [] }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cadOpen, setCadOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
@@ -89,7 +67,7 @@ export default function Home({ userName, userCargo, userFuncao, onLogout }) {
               <List component="div" disablePadding>
                 {cadastrosItens.map((item) => (
                   <ListItem key={item} disablePadding sx={{ pl: 4 }}>
-                    <ListItemButton>
+                    <ListItemButton onClick={() => onSelectPage(item)}>
                       <ListItemText primary={item} />
                     </ListItemButton>
                   </ListItem>
@@ -110,7 +88,7 @@ export default function Home({ userName, userCargo, userFuncao, onLogout }) {
               <List component="div" disablePadding>
                 {listasItens.map((item) => (
                   <ListItem key={item} disablePadding sx={{ pl: 4 }}>
-                    <ListItemButton>
+                    <ListItemButton onClick={() => onSelectPage(item)}>
                       <ListItemText primary={item} />
                     </ListItemButton>
                   </ListItem>
@@ -122,8 +100,7 @@ export default function Home({ userName, userCargo, userFuncao, onLogout }) {
       </Drawer>
 
       <Stack sx={{ p: 2 }} spacing={2}>
-        <Typography variant="h5">Home</Typography>
-        <Typography color="text.secondary">Bem-vindo ao painel inicial.</Typography>
+        <Typography color="text.secondary">Selecione uma opção no menu para navegar.</Typography>
       </Stack>
     </Box>
   );

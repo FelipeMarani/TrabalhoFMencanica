@@ -9,7 +9,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
   Typography,
   CircularProgress,
   Alert,
@@ -17,43 +16,43 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-export default function ListaFuncionario({ onEdit }) {
-  const [funcionarios, setFuncionarios] = useState([]);
+export default function ListaEndereco({ onEdit }) {
+  const [enderecos, setEnderecos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    carregarFuncionarios();
+    carregarEnderecos();
   }, []);
 
-  const carregarFuncionarios = async () => {
+  const carregarEnderecos = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3030/funcionario", {
+      const response = await axios.get("http://localhost:3030/endereco", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setFuncionarios(Array.isArray(response.data) ? response.data : response.data.funcionarios || []);
+      setEnderecos(Array.isArray(response.data) ? response.data : response.data.enderecos || []);
       setError(null);
     } catch (error) {
-      console.error("Erro ao carregar funcionários:", error);
-      setError("Erro ao carregar funcionários");
+      console.error("Erro ao carregar endereços:", error);
+      setError("Erro ao carregar endereços");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Deseja realmente excluir este funcionário?")) {
+    if (window.confirm("Deseja realmente excluir este endereço?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3030/funcionario/${id}`, {
+        await axios.delete(`http://localhost:3030/endereco/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        carregarFuncionarios();
+        carregarEnderecos();
       } catch (error) {
-        console.error("Erro ao excluir funcionário:", error);
-        setError("Erro ao excluir funcionário");
+        console.error("Erro ao excluir endereço:", error);
+        setError("Erro ao excluir endereço");
       }
     }
   };
@@ -64,42 +63,48 @@ export default function ListaFuncionario({ onEdit }) {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Lista de Funcionários
+        Lista de Endereços
       </Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>CPF</TableCell>
-              <TableCell>RG</TableCell>
-              <TableCell>Nascimento</TableCell>
+              <TableCell>Logradouro</TableCell>
+              <TableCell>Número</TableCell>
+              <TableCell>Complemento</TableCell>
+              <TableCell>Bairro</TableCell>
+              <TableCell>Cidade</TableCell>
+              <TableCell>Estado</TableCell>
+              <TableCell>CEP</TableCell>
+              <TableCell>Funcionário</TableCell>
               <TableCell>Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {funcionarios.map((funcionario) => (
-              <TableRow key={funcionario.id}>
-                <TableCell>{funcionario.id}</TableCell>
-                <TableCell>{funcionario.nome}</TableCell>
-                <TableCell>{funcionario.email}</TableCell>
-                <TableCell>{funcionario.cpf}</TableCell>
-                <TableCell>{funcionario.rg}</TableCell>
+            {enderecos.map((endereco) => (
+              <TableRow key={endereco.id}>
+                <TableCell>{endereco.id}</TableCell>
+                <TableCell>{endereco.logradouro}</TableCell>
+                <TableCell>{endereco.numero}</TableCell>
+                <TableCell>{endereco.complemento}</TableCell>
+                <TableCell>{endereco.bairro}</TableCell>
+                <TableCell>{endereco.cidade}</TableCell>
+                <TableCell>{endereco.estado}</TableCell>
+                <TableCell>{endereco.cep}</TableCell>
                 <TableCell>
-                  {new Date(funcionario.nascimento).toLocaleDateString()}
+                  {endereco.Funcionario ? endereco.Funcionario.nome : endereco.id_funcionario}
                 </TableCell>
                 <TableCell>
                   <IconButton
                     color="primary"
-                    onClick={() => onEdit && onEdit(funcionario)}
+                    onClick={() => onEdit && onEdit(endereco)}
                   >
                     <EditIcon />
                   </IconButton>
                   <IconButton
                     color="error"
-                    onClick={() => handleDelete(funcionario.id)}
+                    onClick={() => handleDelete(endereco.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

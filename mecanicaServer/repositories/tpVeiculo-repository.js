@@ -8,12 +8,17 @@ const listaTpVeiculo = async () => {
 
 // Função para pesquisar tipo de veículo por id ou nome
 const pesquisaTpVeiculo = async (termoBusca) => {
+    const conditions = [
+        { nome: { [Op.iLike]: `%${termoBusca}%` } },
+    ];
+    
+    if (!isNaN(termoBusca) && Number.isInteger(Number(termoBusca))) {
+        conditions.push({ id: Number(termoBusca) });
+    }
+    
     return await model.tpVeiculo.findAll({
         where: {
-            [Op.or]: [
-                { id: termoBusca },
-                { nome: { [Op.iLike]: `%${termoBusca}%` } },
-            ],
+            [Op.or]: conditions,
         },
     });
 };

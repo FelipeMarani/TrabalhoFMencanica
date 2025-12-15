@@ -36,10 +36,12 @@ export default function CadastroAlinhamentoFuncao({ alinhamentoEdit, onSuccess }
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
-      setFuncoes(funcoesRes.data);
-      setFuncionarios(funcionariosRes.data);
+      setFuncoes(Array.isArray(funcoesRes.data) ? funcoesRes.data : funcoesRes.data.funcoes || []);
+      setFuncionarios(Array.isArray(funcionariosRes.data) ? funcionariosRes.data : funcionariosRes.data.funcionarios || []);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
+      setFuncoes([]);
+      setFuncionarios([]);
     }
   }, []);
 

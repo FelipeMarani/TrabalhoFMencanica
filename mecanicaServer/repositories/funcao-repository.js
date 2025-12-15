@@ -8,18 +8,21 @@ const listaFuncao = async () => {
 
 //Função para retornar função através do id ou nome
 const pesquisaFuncao = async (nomeBuscado) => {
+    const conditions = [
+        {
+            nome: {
+                [Op.iLike]: `%${nomeBuscado}%`,
+            },
+        },
+    ];
+    
+    if (!isNaN(nomeBuscado) && Number.isInteger(Number(nomeBuscado))) {
+        conditions.push({ id: Number(nomeBuscado) });
+    }
+    
     return await model.Funcao.findAll({
         where: {
-            [Op.or]: [
-                {
-                    id: nomeBuscado,
-                },
-                {
-                    nome: {
-                        [Op.iLike]: `%${nomeBuscado}%`,
-                    },
-                },
-            ],
+            [Op.or]: conditions,
         },
     });
 };

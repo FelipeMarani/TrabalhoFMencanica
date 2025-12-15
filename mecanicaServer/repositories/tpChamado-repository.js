@@ -8,12 +8,17 @@ const listaTpChamado = async () => {
 
 // Função para pesquisar tipo de chamado por id ou descrição
 const pesquisaTpChamado = async (termoBusca) => {
+    const conditions = [
+        { descricao: { [Op.iLike]: `%${termoBusca}%` } },
+    ];
+    
+    if (!isNaN(termoBusca) && Number.isInteger(Number(termoBusca))) {
+        conditions.push({ id: Number(termoBusca) });
+    }
+    
     return await model.tpChamado.findAll({
         where: {
-            [Op.or]: [
-                { id: termoBusca },
-                { descricao: { [Op.iLike]: `%${termoBusca}%` } },
-            ],
+            [Op.or]: conditions,
         },
     });
 };

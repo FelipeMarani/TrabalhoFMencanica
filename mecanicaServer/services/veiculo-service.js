@@ -54,7 +54,7 @@ const atualizaVeiculo = async (req, res) => {
 
 const deletaVeiculo = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
         if (!id) {
             return res.status(400).json({ message: "id é obrigatório" });
         }

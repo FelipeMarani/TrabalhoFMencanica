@@ -3,7 +3,15 @@ const { Op } = require("sequelize");
 
 //função para listar todos os endereços de funcionários
 const listaEnderecos = async () => {
-    return await model.Endereco.findAll();
+    return await model.Endereco.findAll({
+        include: [
+            {
+                model: model.Funcionario,
+                as: 'Funcionario',
+                required: false,
+            },
+        ],
+    });
 };
 
 //função para pesquisar endereço através do nome, cpf, email, rg do funcionário

@@ -5,8 +5,8 @@ const listaQuChamado = async (req, res) => {
         const quChamados = await quChamadoRepository.listaQuChamado();
         res.status(200).json({ quChamados: quChamados });
     } catch (error) {
-        console.log("Erro ao buscar fila de chamados:", error);
-        res.sendStatus(500);
+        console.error("Erro ao buscar fila de chamados:", error);
+        res.status(500).json({ message: "Erro ao buscar fila de chamados", error: error.message });
     }
 };
 

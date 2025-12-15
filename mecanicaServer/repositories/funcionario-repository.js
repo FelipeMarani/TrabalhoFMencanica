@@ -8,6 +8,19 @@ const listafuncionario = async () => {
 
 //função para pesquisar funcionário por id, nome, email, cpf, rg ou função
 const pesquisaFuncionario = async (palavraBusca) => {
+    const conditions = [
+        { nome: { [Op.iLike]: `%${palavraBusca}%` } },
+        { email: { [Op.iLike]: `%${palavraBusca}%` } },
+        { cpf: { [Op.iLike]: `%${palavraBusca}%` } },
+        { rg: { [Op.iLike]: `%${palavraBusca}%` } },
+        { '$AlFuncoes.Funcao.nome$': { [Op.iLike]: `%${palavraBusca}%` } },
+    ];
+    
+    // Só adiciona busca por ID se palavraBusca for um número válido
+    if (!isNaN(palavraBusca) && Number.isInteger(Number(palavraBusca))) {
+        conditions.push({ id: Number(palavraBusca) });
+    }
+    
     return await model.Funcionario.findAll({
         include: [
             {
@@ -24,14 +37,7 @@ const pesquisaFuncionario = async (palavraBusca) => {
             },
         ],
         where: {
-            [Op.or]: [
-                { id: palavraBusca },
-                { nome: { [Op.iLike]: `%${palavraBusca}%` } },
-                { email: { [Op.iLike]: `%${palavraBusca}%` } },
-                { cpf: { [Op.iLike]: `%${palavraBusca}%` } },
-                { rg: { [Op.iLike]: `%${palavraBusca}%` } },
-                { '$AlFuncoes.Funcao.nome$': { [Op.iLike]: `%${palavraBusca}%` } },
-            ],
+            [Op.or]: conditions,
         },
     });
 };

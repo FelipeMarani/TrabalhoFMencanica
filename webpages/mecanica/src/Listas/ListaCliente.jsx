@@ -32,7 +32,7 @@ export default function ListaCliente({ onEdit }) {
       const response = await axios.get("http://localhost:3030/cliente", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setClientes(response.data);
+      setClientes(Array.isArray(response.data) ? response.data : response.data.clientes || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar clientes:", error);

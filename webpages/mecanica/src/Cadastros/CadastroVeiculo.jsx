@@ -8,23 +8,23 @@ import {
   Stack,
   Alert,
   Snackbar,
-  MenuItem,
   FormControl,
   InputLabel,
   Select,
+  MenuItem,
 } from "@mui/material";
 import { generateId } from "../utils/idGenerator";
 
-export default function CadastroChamado({ chamadoEdit, onSuccess }) {
+export default function CadastroVeiculo({ veiculoEdit, onSuccess }) {
   const [formData, setFormData] = useState({
-    descricao: "",
-    id_Cliente: "",
-    id_Veiculo: "",
-    id_TPchamado: "",
+    modelo: "",
+    placa: "",
+    marca: "",
+    id_cliente: "",
+    id_tpVeiculo: "",
   });
   const [clientes, setClientes] = useState([]);
-  const [veiculos, setVeiculos] = useState([]);
-  const [tiposChamado, setTiposChamado] = useState([]);
+  const [tiposVeiculo, setTiposVeiculo] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -32,25 +32,20 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
   const carregarDados = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-      const [clientesRes, veiculosRes, tiposRes] = await Promise.all([
+      const [clientesRes, tiposRes] = await Promise.all([
         axios.get("http://localhost:3030/cliente", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:3030/veiculo", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get("http://localhost:3030/tipo_chamado", {
+        axios.get("http://localhost:3030/tipo_veiculo", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
       setClientes(Array.isArray(clientesRes.data) ? clientesRes.data : clientesRes.data.clientes || []);
-      setVeiculos(Array.isArray(veiculosRes.data) ? veiculosRes.data : veiculosRes.data.veiculos || []);
-      setTiposChamado(Array.isArray(tiposRes.data) ? tiposRes.data : tiposRes.data.tiposChamado || []);
+      setTiposVeiculo(Array.isArray(tiposRes.data) ? tiposRes.data : tiposRes.data.tiposVeiculo || []);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       setClientes([]);
-      setVeiculos([]);
-      setTiposChamado([]);
+      setTiposVeiculo([]);
     }
   }, []);
 
@@ -59,15 +54,16 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
   }, [carregarDados]);
 
   useEffect(() => {
-    if (chamadoEdit) {
+    if (veiculoEdit) {
       setFormData({
-        descricao: chamadoEdit.descricao || "",
-        id_Cliente: chamadoEdit.id_Cliente || "",
-        id_Veiculo: chamadoEdit.id_Veiculo || "",
-        id_TPchamado: chamadoEdit.id_TPchamado || "",
+        modelo: veiculoEdit.modelo || "",
+        placa: veiculoEdit.placa || "",
+        marca: veiculoEdit.marca || "",
+        id_cliente: veiculoEdit.id_cliente || "",
+        id_tpVeiculo: veiculoEdit.id_tpVeiculo || "",
       });
     }
-  }, [chamadoEdit]);
+  }, [veiculoEdit]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -77,35 +73,36 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      if (chamadoEdit) {
+      if (veiculoEdit) {
         await axios.put(
-          `http://localhost:3030/chamado/${chamadoEdit.id}`,
+          `http://localhost:3030/veiculo/${veiculoEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setSnackbarMessage("Chamado atualizado com sucesso!");
+        setSnackbarMessage("Veículo atualizado com sucesso!");
       } else {
-        const chamadoData = {
+        const veiculoData = {
           id: generateId(),
           ...formData,
         };
-        await axios.post("http://localhost:3030/chamado", chamadoData, {
+        await axios.post("http://localhost:3030/veiculo", veiculoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setSnackbarMessage("Chamado cadastrado com sucesso!");
+        setSnackbarMessage("Veículo cadastrado com sucesso!");
       }
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
       setFormData({
-        descricao: "",
-        id_Cliente: "",
-        id_Veiculo: "",
-        id_TPchamado: "",
+        modelo: "",
+        placa: "",
+        marca: "",
+        id_cliente: "",
+        id_tpVeiculo: "",
       });
       if (onSuccess) onSuccess();
     } catch (error) {
-      console.error("Erro ao salvar chamado:", error);
-      setSnackbarMessage("Erro ao salvar chamado");
+      console.error("Erro ao salvar veículo:", error);
+      setSnackbarMessage("Erro ao salvar veículo");
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
     }
@@ -114,24 +111,38 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Typography variant="h5" gutterBottom>
-        {chamadoEdit ? "Editar Chamado" : "Cadastrar Chamado"}
+        {veiculoEdit ? "Editar Veículo" : "Cadastrar Veículo"}
       </Typography>
       <Stack spacing={2}>
         <TextField
           required
-          label="Descrição"
-          name="descricao"
-          value={formData.descricao}
+          label="Modelo"
+          name="modelo"
+          value={formData.modelo}
           onChange={handleChange}
           fullWidth
-          multiline
-          rows={3}
         />
-        <FormControl fullWidth required>
+        <TextField
+          required
+          label="Placa"
+          name="placa"
+          value={formData.placa}
+          onChange={handleChange}
+          fullWidth
+        />
+        <TextField
+          required
+          label="Marca"
+          name="marca"
+          value={formData.marca}
+          onChange={handleChange}
+          fullWidth
+        />
+        <FormControl required fullWidth>
           <InputLabel>Cliente</InputLabel>
           <Select
-            name="id_Cliente"
-            value={formData.id_Cliente}
+            name="id_cliente"
+            value={formData.id_cliente}
             onChange={handleChange}
             label="Cliente"
           >
@@ -142,38 +153,23 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth required>
-          <InputLabel>Veículo</InputLabel>
+        <FormControl required fullWidth>
+          <InputLabel>Tipo de Veículo</InputLabel>
           <Select
-            name="id_Veiculo"
-            value={formData.id_Veiculo}
+            name="id_tpVeiculo"
+            value={formData.id_tpVeiculo}
             onChange={handleChange}
-            label="Veículo"
+            label="Tipo de Veículo"
           >
-            {veiculos.map((veiculo) => (
-              <MenuItem key={veiculo.id} value={veiculo.id}>
-                {veiculo.modelo} - {veiculo.placa}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth required>
-          <InputLabel>Tipo de Chamado</InputLabel>
-          <Select
-            name="id_TPchamado"
-            value={formData.id_TPchamado}
-            onChange={handleChange}
-            label="Tipo de Chamado"
-          >
-            {tiposChamado.map((tipo) => (
+            {tiposVeiculo.map((tipo) => (
               <MenuItem key={tipo.id} value={tipo.id}>
-                {tipo.descricao}
+                {tipo.nome}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
         <Button type="submit" variant="contained" color="primary">
-          {chamadoEdit ? "Atualizar" : "Cadastrar"}
+          {veiculoEdit ? "Atualizar" : "Cadastrar"}
         </Button>
       </Stack>
       <Snackbar

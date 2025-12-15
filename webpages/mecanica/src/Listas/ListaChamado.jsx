@@ -33,7 +33,7 @@ export default function ListaChamado({ onEdit }) {
       const response = await axios.get("http://localhost:3030/chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setChamados(response.data);
+      setChamados(Array.isArray(response.data) ? response.data : response.data.quChamados || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar chamados:", error);

@@ -19,8 +19,8 @@ const pesquisaFuncionario = async (req, res) => {
         const resultado = await funcionarioRepository.pesquisaFuncionario(termoBusca);
         res.status(200).json({ funcionarios: resultado });
     } catch (error) {
-        console.log("Erro ao pesquisar funcionário:", error);
-        res.sendStatus(500);
+        console.error("Erro ao pesquisar funcionário:", error);
+        res.status(500).json({ message: "Erro ao pesquisar funcionário", error: error.message });
     }
 };
 
@@ -54,7 +54,7 @@ const editaFuncionario = async (req, res) => {
 
 const deletafuncionario = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
         if (!id) {
             return res.status(400).json({ message: "id é obrigatório" });
         }

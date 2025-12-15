@@ -32,7 +32,7 @@ export default function ListaTipoChamado({ onEdit }) {
       const response = await axios.get("http://localhost:3030/tipo_chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTiposChamado(response.data);
+      setTiposChamado(Array.isArray(response.data) ? response.data : response.data.tiposChamado || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar tipos de chamado:", error);

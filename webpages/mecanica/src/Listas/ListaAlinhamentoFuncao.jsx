@@ -32,7 +32,7 @@ export default function ListaAlinhamentoFuncao({ onEdit }) {
       const response = await axios.get("http://localhost:3030/alinhamento_funcao", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAlinhamentos(response.data);
+      setAlinhamentos(Array.isArray(response.data) ? response.data : response.data.alinhamentos || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar alinhamentos de função:", error);

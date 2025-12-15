@@ -33,7 +33,7 @@ export default function ListaStatusChamado({ onEdit }) {
       const response = await axios.get("http://localhost:3030/status_chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setStatusChamados(response.data);
+      setStatusChamados(Array.isArray(response.data) ? response.data : response.data.statusChamados || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar status de chamado:", error);

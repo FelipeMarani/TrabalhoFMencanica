@@ -12,6 +12,8 @@ import CadastroFuncionario from "./Cadastros/CadastroFuncionario";
 import CadastroStatusChamado from "./Cadastros/CadastroStatusChamado";
 import CadastroTipoChamado from "./Cadastros/CadastroTipoChamado";
 import CadastroTipoVeiculo from "./Cadastros/CadastroTipoVeiculo";
+import CadastroVeiculo from "./Cadastros/CadastroVeiculo";
+import CadastroEndereco from "./Cadastros/CadastroEndereco";
 import ListaAlinhamentoFuncao from "./Listas/ListaAlinhamentoFuncao";
 import ListaChamado from "./Listas/ListaChamado";
 import ListaCliente from "./Listas/ListaCliente";
@@ -20,6 +22,8 @@ import ListaFuncionario from "./Listas/ListaFuncionario";
 import ListaStatusChamado from "./Listas/ListaStatusChamado";
 import ListaTipoChamado from "./Listas/ListaTipoChamado";
 import ListaTipoVeiculo from "./Listas/ListaTipoVeiculo";
+import ListaVeiculo from "./Listas/ListaVeiculo";
+import ListaEndereco from "./Listas/ListaEndereco";
 
 
 export default function App() {
@@ -32,6 +36,31 @@ export default function App() {
   const [exibeCadastro, setExibecadastros] = useState(false);
   const [exibeListas, setExibeListas] = useState(false);
   const [selectedPage, setSelectedPage] = useState("Home");
+  const allCadastros = [
+    "Alinhamento de Função",
+    "Chamado",
+    "Cliente",
+    "Função",
+    "Funcionário",
+    "Status para Chamado",
+    "Tipos de Chamados",
+    "Tipos de Veículos",
+    "Veículo",
+    "Endereço",
+  ];
+
+  const allListas = [
+    "Funções Alinhadas",
+    "Lista de Chamados",
+    "Lista de Clientes",
+    "Lista de Funções",
+    "Lista de Funcionários",
+    "Lista de Andamento de Chamados",
+    "Listar tipos de Chamado",
+    "Listar Tipos de Veiculos",
+    "Lista de Veículos",
+    "Lista de Endereços",
+  ];
 
 
   useEffect(() => {
@@ -52,29 +81,6 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => {
-    // Busca permissões quando o usuário estiver logado e tiver email
-    if (isLoggedIn && userEmail) {
-      buscarPermissoesPorEmail(userEmail);
-    }
-  }, [isLoggedIn, userEmail]);
-
-  // Atualiza flags locais baseado na lista de permissões vinda do backend
-  useEffect(() => {
-    const nomesPermissoes = permissoes.map(p => p.Permissao?.nome || p);
-    const podeCadastro = nomesPermissoes.includes("exibeCadastro");
-    const podeListas = nomesPermissoes.some((p) => p === "exibeListas" || p === "exibeCurso");
-    setExibecadastros(podeCadastro);
-    setExibeListas(podeListas);
-    // Define cargo a partir das permissões
-    if (nomesPermissoes && nomesPermissoes.length) {
-      const cargoPreferencial = nomesPermissoes.includes("Gerencia") ? "Gerencia" : nomesPermissoes[0];
-      setUserCargo(cargoPreferencial);
-    } else {
-      setUserCargo("");
-    }
-  }, [permissoes]);
-
   const buscarPermissoesPorEmail = async (email) => {
     try {
       const token = localStorage.getItem("token");
@@ -87,28 +93,60 @@ export default function App() {
       setPermissoes(response.data.permissoes);
       
       // Buscar dados do funcionário para obter a função
-      const funcionarioResponse = await axios.get(`http://localhost:3030/funcionario/pesquisa?email=${email}`, {
+      const funcionarioResponse = await axios.get(`http://localhost:3030/funcionario/pesquisa?termoBusca=${email}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      if (funcionarioResponse.data && funcionarioResponse.data.length > 0) {
-        const funcionario = funcionarioResponse.data[0];
+      const funcionarios = Array.isArray(funcionarioResponse.data) ? funcionarioResponse.data : funcionarioResponse.data.funcionarios || [];
+      if (funcionarios && funcionarios.length > 0) {
+        const funcionario = funcionarios[0];
         // Buscar o alinhamento de função
         const alinhamentoResponse = await axios.get(`http://localhost:3030/alinhamento_funcao`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        const alinhamento = alinhamentoResponse.data.find(a => a.id_funcionario === funcionario.id);
+        const alinhamentos = Array.isArray(alinhamentoResponse.data) ? alinhamentoResponse.data : alinhamentoResponse.data.alFuncoes || [];
+        const alinhamento = alinhamentos.find(a => a.id_funcionario === funcionario.id);
         if (alinhamento && alinhamento.Funcao) {
           setUserFuncao(alinhamento.Funcao.nome);
         }
       }
     } catch (error) {
       console.log(error);
+      setPermissoes([]);
     }
   };
+
+  useEffect(() => {
+    // Busca permissões quando o usuário estiver logado e tiver email
+    if (isLoggedIn && userEmail) {
+      buscarPermissoesPorEmail(userEmail);
+    }
+  }, [isLoggedIn, userEmail]);
+
+  // Atualiza flags locais baseado na lista de permissões vinda do backend
+  useEffect(() => {
+    const nomesPermissoes = (permissoes || [])
+      .map((p) => {
+        if (p && p.Permissao && typeof p.Permissao.nome === "string") return p.Permissao.nome;
+        if (typeof p === "string") return p;
+        return "";
+      })
+      .filter(Boolean);
+    const podeCadastro = nomesPermissoes.includes("exibeCadastro");
+    const podeListas = nomesPermissoes.some((p) => p === "exibeListas" || p === "exibeCurso");
+    setExibecadastros(podeCadastro);
+    setExibeListas(podeListas);
+    // Define cargo a partir das permissões
+    if (nomesPermissoes && nomesPermissoes.length) {
+      const cargoPreferencial = nomesPermissoes.includes("Gerencia") ? "Gerencia" : nomesPermissoes[0];
+      setUserCargo(cargoPreferencial);
+    } else {
+      setUserCargo("");
+    }
+  }, [permissoes]);
 
   const handleLogin = (success, useremail = null, username = null) => {
     if (success) {
@@ -151,6 +189,63 @@ export default function App() {
     setSelectedPage("Home");
   };
 
+  const roleSource = [userFuncao, userCargo].find((v) => typeof v === "string" && v.trim());
+  const role = (roleSource || "").toLowerCase();
+
+  const allowedByRole = () => {
+    if (role.includes("ger")) {
+      return { cad: allCadastros, listas: allListas };
+    }
+
+    if (role.includes("atend")) {
+      return {
+        cad: ["Cliente", "Veículo", "Chamado", "Tipos de Veículos"],
+        listas: [
+          "Lista de Chamados",
+          "Lista de Clientes",
+          "Lista de Andamento de Chamados",
+          "Lista de Veículos",
+          "Listar Tipos de Veiculos",
+        ],
+      };
+    }
+
+    if (role.includes("rh")) {
+      return {
+        cad: ["Cliente", "Funcionário", "Alinhamento de Função", "Função", "Endereço"],
+        listas: [
+          "Funções Alinhadas",
+          "Lista de Clientes",
+          "Lista de Funções",
+          "Lista de Funcionários",
+          "Lista de Endereços",
+        ],
+      };
+    }
+
+    if (role.includes("mec") || role.includes("estag")) {
+      return {
+        cad: ["Chamado", "Veículo", "Tipos de Veículos"],
+        listas: [
+          "Lista de Veículos",
+          "Lista de Chamados",
+          "Lista de Andamento de Chamados",
+        ],
+      };
+    }
+
+    // padrão: tudo liberado
+    return { cad: allCadastros, listas: allListas };
+  };
+
+  const { cad: allowedCadastros, listas: allowedListas } = allowedByRole();
+
+  useEffect(() => {
+    if (selectedPage !== "Home" && !allowedCadastros.includes(selectedPage) && !allowedListas.includes(selectedPage)) {
+      setSelectedPage("Home");
+    }
+  }, [allowedCadastros, allowedListas, selectedPage]);
+
   // Mapeia itens do Drawer para componentes de página
   const pageMap = useMemo(
     () => ({
@@ -162,6 +257,8 @@ export default function App() {
       "Status para Chamado": CadastroStatusChamado,
       "Tipos de Chamados": CadastroTipoChamado,
       "Tipos de Veículos": CadastroTipoVeiculo,
+      "Veículo": CadastroVeiculo,
+      "Endereço": CadastroEndereco,
       "Funções Alinhadas": ListaAlinhamentoFuncao,
       "Lista de Chamados": ListaChamado,
       "Lista de Clientes": ListaCliente,
@@ -170,26 +267,11 @@ export default function App() {
       "Lista de Andamento de Chamados": ListaStatusChamado,
       "Listar tipos de Chamado": ListaTipoChamado,
       "Listar Tipos de Veiculos": ListaTipoVeiculo,
+      "Lista de Veículos": ListaVeiculo,
+      "Lista de Endereços": ListaEndereco,
     }),
     [],
   );
-
-  // Ouvinte global para clicks no Drawer (sem alterar Home.jsx)
-  useEffect(() => {
-    const handleMenuClick = (event) => {
-      const btn = event.target.closest(".MuiListItemButton-root");
-      if (!btn) return;
-      const drawer = btn.closest(".MuiDrawer-paper");
-      if (!drawer) return;
-      const label = btn.innerText.trim();
-      if (pageMap[label]) {
-        setSelectedPage(label);
-      }
-    };
-
-    document.addEventListener("click", handleMenuClick);
-    return () => document.removeEventListener("click", handleMenuClick);
-  }, [pageMap]);
 
   // Mostra cargo no rodapé do Drawer sem alterar Home.jsx
   useEffect(() => {
@@ -238,16 +320,19 @@ export default function App() {
 
   return (
     <Box>
-      <Home userName={userName} userCargo={userCargo} userFuncao={userFuncao} onLogout={handleLogout} />
+      <Home
+        userName={userName}
+        userCargo={userCargo}
+        userFuncao={userFuncao}
+        onLogout={handleLogout}
+        cadastrosItens={allowedCadastros}
+        listasItens={allowedListas}
+        onSelectPage={(label) => {
+          if (pageMap[label]) setSelectedPage(label);
+        }}
+      />
       <Box className="container" sx={{ py: 3 }}>
-        {selectedPage === "Home" || !CurrentPage ? (
-          <Stack spacing={2}>
-            <Typography variant="h5">Home</Typography>
-            <Typography color="text.secondary">Selecione uma opção no menu para navegar.</Typography>
-          </Stack>
-        ) : (
-          <CurrentPage />
-        )}
+        {selectedPage !== "Home" && CurrentPage ? <CurrentPage /> : null}
       </Box>
     </Box>
   );

@@ -32,7 +32,7 @@ export default function ListaFuncao({ onEdit }) {
       const response = await axios.get("http://localhost:3030/funcao", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setFuncoes(response.data);
+      setFuncoes(Array.isArray(response.data) ? response.data : response.data.funcoes || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar funções:", error);
