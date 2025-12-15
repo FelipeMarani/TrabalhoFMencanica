@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   Box,
@@ -12,7 +12,7 @@ import {
 import { generateId } from "../utils/idGenerator";
 
 export default function CadastroFuncao({ funcaoEdit, onSuccess }) {
-  const getInitialFormData = () => {
+  const getInitialFormData = useCallback(() => {
     if (funcaoEdit) {
       return {
         nome: funcaoEdit.nome || "",
@@ -23,7 +23,7 @@ export default function CadastroFuncao({ funcaoEdit, onSuccess }) {
       nome: "",
       descricao: "",
     };
-  };
+  }, [funcaoEdit]);
 
   const [formData, setFormData] = useState(getInitialFormData());
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -32,7 +32,7 @@ export default function CadastroFuncao({ funcaoEdit, onSuccess }) {
 
   useEffect(() => {
     setFormData(getInitialFormData());
-  }, [funcaoEdit]);
+  }, [funcaoEdit, getInitialFormData]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

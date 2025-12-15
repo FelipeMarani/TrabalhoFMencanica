@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-export default function ListaFuncao({ onEdit }) {
+export default function ListaFuncao() {
   const navigate = useNavigate();
   const [funcoes, setFuncoes] = useState([]);
   const [loading, setLoading] = useState(true);

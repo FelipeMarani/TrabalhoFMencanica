@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-export default function ListaTipoChamado({ onEdit }) {
+export default function ListaTipoChamado() {
   const navigate = useNavigate();
   const [tiposChamado, setTiposChamado] = useState([]);
   const [loading, setLoading] = useState(true);

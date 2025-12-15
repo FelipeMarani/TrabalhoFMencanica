@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   Box,
@@ -12,7 +12,7 @@ import {
 import { generateId } from "../utils/idGenerator";
 
 export default function CadastroCliente({ clienteEdit, onSuccess }) {
-  const getInitialFormData = () => {
+  const getInitialFormData = useCallback(() => {
     if (clienteEdit) {
       return {
         nome: clienteEdit.nome || "",
@@ -31,7 +31,7 @@ export default function CadastroCliente({ clienteEdit, onSuccess }) {
       cpf: "",
       rg: "",
     };
-  };
+  }, [clienteEdit]);
 
   const [formData, setFormData] = useState(getInitialFormData());
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -40,7 +40,7 @@ export default function CadastroCliente({ clienteEdit, onSuccess }) {
 
   useEffect(() => {
     setFormData(getInitialFormData());
-  }, [clienteEdit]);
+  }, [clienteEdit, getInitialFormData]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

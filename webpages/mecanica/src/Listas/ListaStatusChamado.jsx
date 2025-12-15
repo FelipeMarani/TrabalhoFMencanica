@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-export default function ListaStatusChamado({ onEdit }) {
+export default function ListaStatusChamado() {
   const navigate = useNavigate();
   const [statusChamados, setStatusChamados] = useState([]);
   const [loading, setLoading] = useState(true);

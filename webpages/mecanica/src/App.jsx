@@ -44,8 +44,6 @@ export default function App() {
   const [userName, setUserName] = useState("");
   const [userCargo, setUserCargo] = useState("");
   const [userFuncao, setUserFuncao] = useState("");
-  const [exibeCadastro, setExibecadastros] = useState(false);
-  const [exibeListas, setExibeListas] = useState(false);
   const [selectedPage, setSelectedPage] = useState("Home");
 
   // Configurar interceptor do axios para lidar com erros de autenticação
@@ -93,7 +91,7 @@ export default function App() {
     "Lista de Clientes",
     "Lista de Funções",
     "Lista de Funcionários",
-    "Lista de Andamento de Chamados",
+    "Lista de Status de Chamados",
     "Listar tipos de Chamado",
     "Listar Tipos de Veiculos",
     "Lista de Veículos",
@@ -184,10 +182,6 @@ export default function App() {
         return "";
       })
       .filter(Boolean);
-    const podeCadastro = nomesPermissoes.includes("exibeCadastro");
-    const podeListas = nomesPermissoes.some((p) => p === "exibeListas" || p === "exibeCurso");
-    setExibecadastros(podeCadastro);
-    setExibeListas(podeListas);
     // Define cargo a partir das permissões
     if (nomesPermissoes && nomesPermissoes.length) {
       const cargoPreferencial = nomesPermissoes.includes("Gerencia") ? "Gerencia" : nomesPermissoes[0];
@@ -389,7 +383,6 @@ export default function App() {
     <Box>
       <Home
         userName={userName}
-        userCargo={userCargo}
         userFuncao={userFuncao}
         onLogout={handleLogout}
         cadastrosItens={allowedCadastros}

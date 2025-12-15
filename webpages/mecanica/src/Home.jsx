@@ -21,6 +21,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FolderIcon from '@mui/icons-material/Folder';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import GraficoChamados from './Components/GraficoChamados';
 
 export default function Home({ userName, userCargo, userFuncao, onLogout, onSelectPage, cadastrosItens = [], listasItens = [] }) {
   const navigate = useNavigate();
@@ -141,6 +142,7 @@ export default function Home({ userName, userCargo, userFuncao, onLogout, onSele
 
       <Stack sx={{ p: 2 }} spacing={2}>
         <Typography color="text.secondary">Selecione uma opção no menu para navegar.</Typography>
+        <GraficoChamados />
       </Stack>
     </Box>
   );

@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from "@mui/icons-material";
 
-export default function ListaChamado({ onEdit }) {
+export default function ListaChamado() {
   const navigate = useNavigate();
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function ListaChamado({ onEdit }) {
       const response = await axios.get("http://localhost:3030/chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setChamados(Array.isArray(response.data) ? response.data : response.data.quChamados || []);
+      setChamados(Array.isArray(response.data) ? response.data : response.data.chamados || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar chamados:", error);

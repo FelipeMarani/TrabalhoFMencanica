@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-export default function ListaEndereco({ onEdit }) {
+export default function ListaEndereco() {
   const navigate = useNavigate();
   const [enderecos, setEnderecos] = useState([]);
   const [loading, setLoading] = useState(true);

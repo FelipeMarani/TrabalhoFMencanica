@@ -7,16 +7,16 @@ const chamadoRouter = express.Router();
 //POST / - criar um novo chamado
 chamadoRouter.post("/", ChamadoService.novoChamado);
 
-//GET / - listar todos os chamados da fila
-chamadoRouter.get("/", quChamadosService.listaQuChamado);
+//GET / - listar todos os chamados
+chamadoRouter.get("/", ChamadoService.listaChamados);
 
 //GET /pesquisa - pesquisar chamado específico
-chamadoRouter.get("/pesquisa", quChamadosService.pesquisaQuChamado);
+chamadoRouter.get("/pesquisa", ChamadoService.pesquisaChamado);
 
-//PUT /:id - atualiza status do chamado
-chamadoRouter.put("/:id", quChamadosService.atualizaQuChamado);
+//PUT /:id - atualiza chamado
+chamadoRouter.put("/:id", ChamadoService.atualizaChamado);
 
-//DELETE /:id - deleta o chamado em aberto
+//DELETE /:id - deleta o chamado
 chamadoRouter.delete("/:id", ChamadoService.deletaChamado);
 
 module.exports = chamadoRouter;

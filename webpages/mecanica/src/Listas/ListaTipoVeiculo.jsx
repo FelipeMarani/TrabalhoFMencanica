@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-export default function ListaTipoVeiculo({ onEdit }) {
+export default function ListaTipoVeiculo() {
   const navigate = useNavigate();
   const [tiposVeiculo, setTiposVeiculo] = useState([]);
   const [loading, setLoading] = useState(true);
