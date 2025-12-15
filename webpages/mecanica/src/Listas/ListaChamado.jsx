@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -18,6 +19,7 @@ import {
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from "@mui/icons-material";
 
 export default function ListaChamado({ onEdit }) {
+  const navigate = useNavigate();
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -91,7 +93,7 @@ export default function ListaChamado({ onEdit }) {
                 <TableCell>
                   <IconButton
                     color="primary"
-                    onClick={() => onEdit && onEdit(chamado)}
+                    onClick={() => navigate(`/editar-chamado/${chamado.id}`)}
                   >
                     <EditIcon />
                   </IconButton>

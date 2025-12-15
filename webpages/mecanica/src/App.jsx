@@ -31,6 +31,10 @@ import EditarFuncao from "./Editar/EditarFuncao";
 import EditarEndereco from "./Editar/EditarEndereco";
 import EditarVeiculo from "./Editar/EditarVeiculo";
 import EditarAlinhamentoFuncao from "./Editar/EditarAlinhamentoFuncao";
+import EditarChamado from "./Editar/EditarChamado";
+import EditarStatusChamado from "./Editar/EditarStatusChamado";
+import EditarTipoChamado from "./Editar/EditarTipoChamado";
+import EditarTipoVeiculo from "./Editar/EditarTipoVeiculo";
 
 
 export default function App() {
@@ -373,6 +377,10 @@ export default function App() {
           <Route path="/editar-endereco/:id" element={<EditarEndereco />} />
           <Route path="/editar-veiculo/:id" element={<EditarVeiculo />} />
           <Route path="/editar-alinhamento-funcao/:id" element={<EditarAlinhamentoFuncao />} />
+          <Route path="/editar-chamado/:id" element={<EditarChamado />} />
+          <Route path="/editar-status-chamado/:id" element={<EditarStatusChamado />} />
+          <Route path="/editar-tipo-chamado/:id" element={<EditarTipoChamado />} />
+          <Route path="/editar-tipo-veiculo/:id" element={<EditarTipoVeiculo />} />
         </Routes>
       </Box>
     </Box>

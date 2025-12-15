@@ -34,7 +34,7 @@ export default function ListaAlinhamentoFuncao({ onEdit }) {
       const response = await axios.get("http://localhost:3030/alinhamento_funcao", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAlinhamentos(Array.isArray(response.data) ? response.data : response.data.alinhamentos || []);
+      setAlinhamentos(Array.isArray(response.data) ? response.data : response.data.alFuncoes || []);
       setError(null);
     } catch (error) {
       console.error("Erro ao carregar alinhamentos de função:", error);
@@ -72,33 +72,45 @@ export default function ListaAlinhamentoFuncao({ onEdit }) {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>ID Função</TableCell>
-              <TableCell>ID Funcionário</TableCell>
+              <TableCell>Função</TableCell>
+              <TableCell>Funcionário</TableCell>
               <TableCell>Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {alinhamentos.map((alinhamento) => (
-              <TableRow key={alinhamento.id}>
-                <TableCell>{alinhamento.id}</TableCell>
-                <TableCell>{alinhamento.id_funcao}</TableCell>
-                <TableCell>{alinhamento.id_funcionario}</TableCell>
-                <TableCell>
-                  <IconButton
-                    color="primary"
-                    onClick={() => navigate(`/editar-alinhamento-funcao/${alinhamento.id}`)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="error"
-                    onClick={() => handleDelete(alinhamento.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+            {alinhamentos.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  Nenhum alinhamento de função encontrado
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              alinhamentos.map((alinhamento) => (
+                <TableRow key={alinhamento.id}>
+                  <TableCell>{alinhamento.id}</TableCell>
+                  <TableCell>
+                    {alinhamento.Funcao?.nome || `ID: ${alinhamento.id_funcao}`}
+                  </TableCell>
+                  <TableCell>
+                    {alinhamento.Funcionario?.nome || `ID: ${alinhamento.id_funcionario}`}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      onClick={() => navigate(`/editar-alinhamento-funcao/${alinhamento.id}`)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDelete(alinhamento.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>
