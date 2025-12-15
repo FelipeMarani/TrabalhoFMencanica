@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import { Stack, Box, Typography } from "@mui/material";
 import Login from "./Login";
@@ -24,6 +25,12 @@ import ListaTipoChamado from "./Listas/ListaTipoChamado";
 import ListaTipoVeiculo from "./Listas/ListaTipoVeiculo";
 import ListaVeiculo from "./Listas/ListaVeiculo";
 import ListaEndereco from "./Listas/ListaEndereco";
+import EditarCliente from "./Editar/EditarCliente";
+import EditarFuncionario from "./Editar/EditarFuncionario";
+import EditarFuncao from "./Editar/EditarFuncao";
+import EditarEndereco from "./Editar/EditarEndereco";
+import EditarVeiculo from "./Editar/EditarVeiculo";
+import EditarAlinhamentoFuncao from "./Editar/EditarAlinhamentoFuncao";
 
 
 export default function App() {
@@ -332,7 +339,41 @@ export default function App() {
         }}
       />
       <Box className="container" sx={{ py: 3 }}>
-        {selectedPage !== "Home" && CurrentPage ? <CurrentPage /> : null}
+        <Routes>
+          <Route path="/" element={selectedPage !== "Home" && CurrentPage ? <CurrentPage /> : null} />
+          
+          {/* Rotas de Listas */}
+          <Route path="/lista-clientes" element={<ListaCliente />} />
+          <Route path="/lista-funcionarios" element={<ListaFuncionario />} />
+          <Route path="/lista-funcoes" element={<ListaFuncao />} />
+          <Route path="/lista-enderecos" element={<ListaEndereco />} />
+          <Route path="/lista-veiculos" element={<ListaVeiculo />} />
+          <Route path="/lista-alinhamento-funcao" element={<ListaAlinhamentoFuncao />} />
+          <Route path="/lista-chamados" element={<ListaChamado />} />
+          <Route path="/lista-status-chamado" element={<ListaStatusChamado />} />
+          <Route path="/lista-tipo-chamado" element={<ListaTipoChamado />} />
+          <Route path="/lista-tipo-veiculo" element={<ListaTipoVeiculo />} />
+          
+          {/* Rotas de Cadastros */}
+          <Route path="/cadastro-cliente" element={<CadastroCliente />} />
+          <Route path="/cadastro-funcionario" element={<CadastroFuncionario />} />
+          <Route path="/cadastro-funcao" element={<CadastroFuncao />} />
+          <Route path="/cadastro-endereco" element={<CadastroEndereco />} />
+          <Route path="/cadastro-veiculo" element={<CadastroVeiculo />} />
+          <Route path="/cadastro-alinhamento-funcao" element={<CadastroAlinhamentoFuncao />} />
+          <Route path="/cadastro-chamado" element={<CadastroChamado />} />
+          <Route path="/cadastro-status-chamado" element={<CadastroStatusChamado />} />
+          <Route path="/cadastro-tipo-chamado" element={<CadastroTipoChamado />} />
+          <Route path="/cadastro-tipo-veiculo" element={<CadastroTipoVeiculo />} />
+          
+          {/* Rotas de Edição */}
+          <Route path="/editar-cliente/:id" element={<EditarCliente />} />
+          <Route path="/editar-funcionario/:id" element={<EditarFuncionario />} />
+          <Route path="/editar-funcao/:id" element={<EditarFuncao />} />
+          <Route path="/editar-endereco/:id" element={<EditarEndereco />} />
+          <Route path="/editar-veiculo/:id" element={<EditarVeiculo />} />
+          <Route path="/editar-alinhamento-funcao/:id" element={<EditarAlinhamentoFuncao />} />
+        </Routes>
       </Box>
     </Box>
   );

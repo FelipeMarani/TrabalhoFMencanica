@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -22,11 +23,50 @@ import FolderIcon from '@mui/icons-material/Folder';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
 export default function Home({ userName, userCargo, userFuncao, onLogout, onSelectPage, cadastrosItens = [], listasItens = [] }) {
+  const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cadOpen, setCadOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
 
   const toggleDrawer = (open) => () => setDrawerOpen(open);
+
+  // Mapeia os nomes dos itens do menu para rotas
+  const routeMap = {
+    // Cadastros
+    "Alinhamento de Função": "/cadastro-alinhamento-funcao",
+    "Chamado": "/cadastro-chamado",
+    "Cliente": "/cadastro-cliente",
+    "Função": "/cadastro-funcao",
+    "Funcionário": "/cadastro-funcionario",
+    "Status para Chamado": "/cadastro-status-chamado",
+    "Tipos de Chamados": "/cadastro-tipo-chamado",
+    "Tipos de Veículos": "/cadastro-tipo-veiculo",
+    "Veículo": "/cadastro-veiculo",
+    "Endereço": "/cadastro-endereco",
+    // Listas
+    "Funções Alinhadas": "/lista-alinhamento-funcao",
+    "Lista de Chamados": "/lista-chamados",
+    "Lista de Clientes": "/lista-clientes",
+    "Lista de Funções": "/lista-funcoes",
+    "Lista de Funcionários": "/lista-funcionarios",
+    "Lista de Andamento de Chamados": "/lista-status-chamado",
+    "Listar tipos de Chamado": "/lista-tipo-chamado",
+    "Listar Tipos de Veiculos": "/lista-tipo-veiculo",
+    "Lista de Veículos": "/lista-veiculos",
+    "Lista de Endereços": "/lista-enderecos",
+  };
+
+  const handleMenuClick = (item) => {
+    const route = routeMap[item];
+    if (route) {
+      navigate(route);
+      setDrawerOpen(false);
+    } else {
+      // Fallback para o método antigo se a rota não existir
+      onSelectPage(item);
+      setDrawerOpen(false);
+    }
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -67,7 +107,7 @@ export default function Home({ userName, userCargo, userFuncao, onLogout, onSele
               <List component="div" disablePadding>
                 {cadastrosItens.map((item) => (
                   <ListItem key={item} disablePadding sx={{ pl: 4 }}>
-                    <ListItemButton onClick={() => onSelectPage(item)}>
+                    <ListItemButton onClick={() => handleMenuClick(item)}>
                       <ListItemText primary={item} />
                     </ListItemButton>
                   </ListItem>
@@ -88,7 +128,7 @@ export default function Home({ userName, userCargo, userFuncao, onLogout, onSele
               <List component="div" disablePadding>
                 {listasItens.map((item) => (
                   <ListItem key={item} disablePadding sx={{ pl: 4 }}>
-                    <ListItemButton onClick={() => onSelectPage(item)}>
+                    <ListItemButton onClick={() => handleMenuClick(item)}>
                       <ListItemText primary={item} />
                     </ListItemButton>
                   </ListItem>

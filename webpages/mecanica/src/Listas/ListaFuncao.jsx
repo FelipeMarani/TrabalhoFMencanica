@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -17,6 +18,7 @@ import {
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 export default function ListaFuncao({ onEdit }) {
+  const navigate = useNavigate();
   const [funcoes, setFuncoes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -84,7 +86,7 @@ export default function ListaFuncao({ onEdit }) {
                 <TableCell>
                   <IconButton
                     color="primary"
-                    onClick={() => onEdit && onEdit(funcao)}
+                    onClick={() => navigate(`/editar-funcao/${funcao.id}`)}
                   >
                     <EditIcon />
                   </IconButton>

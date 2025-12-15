@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -17,6 +18,7 @@ import {
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 export default function ListaEndereco({ onEdit }) {
+  const navigate = useNavigate();
   const [enderecos, setEnderecos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -98,7 +100,7 @@ export default function ListaEndereco({ onEdit }) {
                 <TableCell>
                   <IconButton
                     color="primary"
-                    onClick={() => onEdit && onEdit(endereco)}
+                    onClick={() => navigate(`/editar-endereco/${endereco.id}`)}
                   >
                     <EditIcon />
                   </IconButton>
