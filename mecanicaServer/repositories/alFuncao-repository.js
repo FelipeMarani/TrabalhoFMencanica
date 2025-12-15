@@ -4,7 +4,20 @@ const { Op } = require("sequelize");
 
 //Função para retornar todos os alinhamnetos de função
 const listaAlFuncao = async () => {
-    return await model.alFuncao.findAll();
+    return await model.alFuncao.findAll({
+        include: [
+            {
+                model: model.Funcao,
+                as: 'Funcao',
+                required: false,
+            },
+            {
+                model: model.Funcionario,
+                as: 'Funcionario',
+                required: false,
+            }
+        ],
+    });
 };
 
 //Função para retornar alinhamento de Função através do nome de funcionario ou nome da função exercida

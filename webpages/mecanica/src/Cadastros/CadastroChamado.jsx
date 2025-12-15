@@ -13,6 +13,7 @@ import {
   InputLabel,
   Select,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroChamado({ chamadoEdit, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -81,7 +82,11 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
         );
         setSnackbarMessage("Chamado atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3030/chamado", formData, {
+        const chamadoData = {
+          id: generateId(),
+          ...formData,
+        };
+        await axios.post("http://localhost:3030/chamado", chamadoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Chamado cadastrado com sucesso!");

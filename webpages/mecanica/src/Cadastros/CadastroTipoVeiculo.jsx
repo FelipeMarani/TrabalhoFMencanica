@@ -9,6 +9,7 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroTipoVeiculo({ tipoVeiculoEdit, onSuccess }) {
   const getInitialFormData = () => {
@@ -47,7 +48,11 @@ export default function CadastroTipoVeiculo({ tipoVeiculoEdit, onSuccess }) {
         );
         setSnackbarMessage("Tipo de veículo atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3030/tipo_veiculo", formData, {
+        const tipoVeiculoData = {
+          id: generateId(),
+          ...formData,
+        };
+        await axios.post("http://localhost:3030/tipo_veiculo", tipoVeiculoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Tipo de veículo cadastrado com sucesso!");

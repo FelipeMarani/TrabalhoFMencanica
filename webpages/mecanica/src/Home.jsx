@@ -43,7 +43,7 @@ const listasItens = [
   "Listar Tipos de Veiculos",
 ];
 
-export default function Home({ userName, userCargo, onLogout }) {
+export default function Home({ userName, userCargo, userFuncao, onLogout }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cadOpen, setCadOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
@@ -58,7 +58,7 @@ export default function Home({ userName, userCargo, onLogout }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div" noWrap>
-            {userName ? userName : "Usuário"}{userCargo ? ` — ${userCargo}` : ""}
+            {userName ? userName : "Usuário"}{userFuncao ? ` — ${userFuncao}` : ""}
           </Typography>
           <Box sx={{ ml: 'auto' }}>
             <Button color="inherit" onClick={onLogout}>Sair</Button>

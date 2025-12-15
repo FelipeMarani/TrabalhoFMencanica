@@ -28,6 +28,7 @@ export default function App() {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userCargo, setUserCargo] = useState("");
+  const [userFuncao, setUserFuncao] = useState("");
   const [exibeCadastro, setExibecadastros] = useState(false);
   const [exibeListas, setExibeListas] = useState(false);
   const [selectedPage, setSelectedPage] = useState("Home");
@@ -60,13 +61,14 @@ export default function App() {
 
   // Atualiza flags locais baseado na lista de permissões vinda do backend
   useEffect(() => {
-    const podeCadastro = permissoes.includes("exibeCadastro");
-    const podeListas = permissoes.some((p) => p === "exibeListas" || p === "exibeCurso");
+    const nomesPermissoes = permissoes.map(p => p.Permissao?.nome || p);
+    const podeCadastro = nomesPermissoes.includes("exibeCadastro");
+    const podeListas = nomesPermissoes.some((p) => p === "exibeListas" || p === "exibeCurso");
     setExibecadastros(podeCadastro);
     setExibeListas(podeListas);
     // Define cargo a partir das permissões
-    if (permissoes && permissoes.length) {
-      const cargoPreferencial = permissoes.includes("Gerencia") ? "Gerencia" : permissoes[0];
+    if (nomesPermissoes && nomesPermissoes.length) {
+      const cargoPreferencial = nomesPermissoes.includes("Gerencia") ? "Gerencia" : nomesPermissoes[0];
       setUserCargo(cargoPreferencial);
     } else {
       setUserCargo("");
@@ -83,6 +85,26 @@ export default function App() {
       });
       console.log(response.data.permissoes);
       setPermissoes(response.data.permissoes);
+      
+      // Buscar dados do funcionário para obter a função
+      const funcionarioResponse = await axios.get(`http://localhost:3030/funcionario/pesquisa?email=${email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (funcionarioResponse.data && funcionarioResponse.data.length > 0) {
+        const funcionario = funcionarioResponse.data[0];
+        // Buscar o alinhamento de função
+        const alinhamentoResponse = await axios.get(`http://localhost:3030/alinhamento_funcao`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const alinhamento = alinhamentoResponse.data.find(a => a.id_funcionario === funcionario.id);
+        if (alinhamento && alinhamento.Funcao) {
+          setUserFuncao(alinhamento.Funcao.nome);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +135,7 @@ export default function App() {
       setUserEmail("");
       setUserName("");
       setUserCargo("");
+      setUserFuncao("");
       localStorage.removeItem("token");
     }
   };
@@ -122,6 +145,7 @@ export default function App() {
     setUserEmail("");
     setUserName("");
     setUserCargo("");
+    setUserFuncao("");
     setPermissoes([]);
     localStorage.removeItem("token");
     setSelectedPage("Home");
@@ -214,7 +238,7 @@ export default function App() {
 
   return (
     <Box>
-      <Home userName={userName} userCargo={userCargo} onLogout={handleLogout} />
+      <Home userName={userName} userCargo={userCargo} userFuncao={userFuncao} onLogout={handleLogout} />
       <Box className="container" sx={{ py: 3 }}>
         {selectedPage === "Home" || !CurrentPage ? (
           <Stack spacing={2}>

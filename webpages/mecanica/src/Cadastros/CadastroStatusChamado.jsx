@@ -9,6 +9,7 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroStatusChamado({ statusChamadoEdit, onSuccess }) {
   const getInitialFormData = () => {
@@ -47,7 +48,11 @@ export default function CadastroStatusChamado({ statusChamadoEdit, onSuccess }) 
         );
         setSnackbarMessage("Status de chamado atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3030/status_chamado", formData, {
+        const statusChamadoData = {
+          id: generateId(),
+          ...formData,
+        };
+        await axios.post("http://localhost:3030/status_chamado", statusChamadoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Status de chamado cadastrado com sucesso!");

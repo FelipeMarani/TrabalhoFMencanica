@@ -12,6 +12,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroAlinhamentoFuncao({ alinhamentoEdit, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -71,7 +72,11 @@ export default function CadastroAlinhamentoFuncao({ alinhamentoEdit, onSuccess }
         );
         setSnackbarMessage("Alinhamento atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3030/alinhamento_funcao", formData, {
+        const alinhamentoData = {
+          id: generateId(),
+          ...formData,
+        };
+        await axios.post("http://localhost:3030/alinhamento_funcao", alinhamentoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Alinhamento cadastrado com sucesso!");

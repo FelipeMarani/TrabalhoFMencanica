@@ -9,6 +9,7 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroTipoChamado({ tipoChamadoEdit, onSuccess }) {
   const getInitialFormData = () => {
@@ -47,7 +48,11 @@ export default function CadastroTipoChamado({ tipoChamadoEdit, onSuccess }) {
         );
         setSnackbarMessage("Tipo de chamado atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3030/tipo_chamado", formData, {
+        const tipoChamadoData = {
+          id: generateId(),
+          ...formData,
+        };
+        await axios.post("http://localhost:3030/tipo_chamado", tipoChamadoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Tipo de chamado cadastrado com sucesso!");

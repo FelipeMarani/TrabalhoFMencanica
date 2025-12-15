@@ -9,6 +9,7 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroFuncao({ funcaoEdit, onSuccess }) {
   const getInitialFormData = () => {
@@ -49,7 +50,11 @@ export default function CadastroFuncao({ funcaoEdit, onSuccess }) {
         );
         setSnackbarMessage("Função atualizada com sucesso!");
       } else {
-        await axios.post("http://localhost:3030/funcao", formData, {
+        const funcaoData = {
+          id: generateId(),
+          ...formData,
+        };
+        await axios.post("http://localhost:3030/funcao", funcaoData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Função cadastrada com sucesso!");
