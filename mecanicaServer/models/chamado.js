@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
+                autoIncrement: true,
             },
             descricao: DataTypes.STRING,
             img_Veiculo: DataTypes.BLOB,
@@ -25,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            tableName: "Chamados",
+            tableName: "chamados",
             schema: "public",
             freezeTableName: true,
             timestamps: false,

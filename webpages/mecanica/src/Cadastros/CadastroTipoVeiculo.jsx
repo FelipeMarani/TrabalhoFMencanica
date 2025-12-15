@@ -41,13 +41,13 @@ export default function CadastroTipoVeiculo({ tipoVeiculoEdit, onSuccess }) {
       const token = localStorage.getItem("token");
       if (tipoVeiculoEdit) {
         await axios.put(
-          `http://localhost:3002/tipo_veiculo/${tipoVeiculoEdit.id}`,
+          `http://localhost:3030/tipo_veiculo/${tipoVeiculoEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Tipo de veículo atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/tipo_veiculo", formData, {
+        await axios.post("http://localhost:3030/tipo_veiculo", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Tipo de veículo cadastrado com sucesso!");

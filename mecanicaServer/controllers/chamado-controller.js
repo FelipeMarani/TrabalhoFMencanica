@@ -3,21 +3,20 @@ const ChamadoService = require("../services/chamado-service");
 const quChamadosService = require("../services/quChamado-service");
 
 const chamadoRouter = express.Router();
-const quChamadoRouter = express.Router();
 
-//POST /chamado/novo - criar um novo chamado
-chamadoRouter.post("/chamado/novo", ChamadoService.novoChamado);
+//POST / - criar um novo chamado
+chamadoRouter.post("/", ChamadoService.novoChamado);
 
-//GET /chamado/lista - listar todos os chamados da fila
-chamadoRouter.get("/chamado/lista", quChamadosService.listaChamados);
+//GET / - listar todos os chamados da fila
+chamadoRouter.get("/", quChamadosService.listaQuChamado);
 
-//GET /chamado/lista/pesquisa - pesquisar chamado específico
-quChamadoRouter.get("/chamado/lista/pesquisa", quChamadosService.pesquisaChamado);
+//GET /pesquisa - pesquisar chamado específico
+chamadoRouter.get("/pesquisa", quChamadosService.pesquisaQuChamado);
 
-//PUT /chamado/lista/status - atualiza status do chamado
-quChamadoRouter.put("/chamado/lista/edita", quChamadosService.atualizaChamado);
+//PUT /:id - atualiza status do chamado
+chamadoRouter.put("/:id", quChamadosService.atualizaQuChamado);
 
-//DELETE /chamado/lista/edita/deleta - deleta o chamado em aberto
-chamadoRouter.delete("/chamado/lista/edita/deleta", ChamadoService.deletaChamado);
+//DELETE /:id - deleta o chamado em aberto
+chamadoRouter.delete("/:id", ChamadoService.deletaChamado);
 
 module.exports = chamadoRouter;

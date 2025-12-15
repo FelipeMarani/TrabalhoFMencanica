@@ -29,7 +29,7 @@ export default function ListaTipoChamado({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/tipo_chamado", {
+      const response = await axios.get("http://localhost:3030/tipo_chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTiposChamado(response.data);
@@ -46,7 +46,7 @@ export default function ListaTipoChamado({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este tipo de chamado?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/tipo_chamado/${id}`, {
+        await axios.delete(`http://localhost:3030/tipo_chamado/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarTiposChamado();

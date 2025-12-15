@@ -30,7 +30,7 @@ export default function ListaChamado({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/chamado", {
+      const response = await axios.get("http://localhost:3030/chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setChamados(response.data);
@@ -47,7 +47,7 @@ export default function ListaChamado({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este chamado?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/chamado/${id}`, {
+        await axios.delete(`http://localhost:3030/chamado/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarChamados();

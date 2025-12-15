@@ -7,12 +7,13 @@ module.exports = (sequelize, DataTypes) => {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
+                autoIncrement: true,
             },
             descricao: DataTypes.STRING,
         },
         {
             sequelize,
-            tableName: "Status_Chamado",
+            tableName: "status_chamado",
             schema: "public",
             freezeTableName: true,
             timestamps: false,

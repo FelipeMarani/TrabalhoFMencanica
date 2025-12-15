@@ -3,19 +3,19 @@ const alFuncaoService = require("../services/alFuncao-service");
 
 const alFuncaoRouter = express.Router();
 
-//POST /cadastro/controleFuncao - criar novos alinhamentos de funções
-alFuncaoRouter.post("/cadastro/controleFuncao", alFuncaoService.criaAlFuncao);
+//POST / - criar novos alinhamentos de funções
+alFuncaoRouter.post("/", alFuncaoService.criaAlFuncao);
 
-//GET /controleFuncao/lista - retorna todos os alinhamentos de funções cadastradas
-alFuncaoRouter.get("/controleFuncao/lista", alFuncaoService.listaAlFuncao);
+//GET / - retorna todos os alinhamentos de funções cadastradas
+alFuncaoRouter.get("/", alFuncaoService.listaAlFuncao);
 
-//GET /controleFuncao/lista/pesquisa - retorna todos os alinhamentos de função de forma específica
-alFuncaoRouter.get("/controleFuncao/lista/pesquisa", alFuncaoService.pesquisaAlFuncao);
+//GET /pesquisa - retorna todos os alinhamentos de função de forma específica
+alFuncaoRouter.get("/pesquisa", alFuncaoService.pesquisaAlFuncao);
 
-//PUT /controleFuncao/lista/edita - atualizar os alinhamentos existentes
-alFuncaoRouter.put("/controleFuncao/lista/edita", alFuncaoService.atualizaAlFuncao);
+//PUT /:id - atualizar os alinhamentos existentes
+alFuncaoRouter.put("/:id", alFuncaoService.atualizaAlFuncao);
 
-//DELETE /controleFuncao/lista/edita/deleta - deletar um alinhamento de função específico
-alFuncaoRouter.delete("/controleFuncao/lista/edita/deleta", alFuncaoService.deletaAlFuncao);
+//DELETE /:id - deletar um alinhamento de função específico
+alFuncaoRouter.delete("/:id", alFuncaoService.deletaAlFuncao);
 
 module.exports = alFuncaoRouter;

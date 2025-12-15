@@ -32,13 +32,13 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
     try {
       const token = localStorage.getItem("token");
       const [clientesRes, veiculosRes, tiposRes] = await Promise.all([
-        axios.get("http://localhost:3002/cliente", {
+        axios.get("http://localhost:3030/cliente", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:3002/veiculo", {
+        axios.get("http://localhost:3030/veiculo", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:3002/tipo_chamado", {
+        axios.get("http://localhost:3030/tipo_chamado", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -75,13 +75,13 @@ export default function CadastroChamado({ chamadoEdit, onSuccess }) {
       const token = localStorage.getItem("token");
       if (chamadoEdit) {
         await axios.put(
-          `http://localhost:3002/chamado/${chamadoEdit.id}`,
+          `http://localhost:3030/chamado/${chamadoEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Chamado atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/chamado", formData, {
+        await axios.post("http://localhost:3030/chamado", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Chamado cadastrado com sucesso!");

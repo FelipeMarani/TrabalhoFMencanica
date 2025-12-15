@@ -3,19 +3,19 @@ const tpChamadoService = require("../services/tpChamado-service");
 
 const tpChamadoRouter = express.Router();
 
-//POST /tpChamadoChamado/adicona - adicionar um novo tpChamado de chamado
-tpChamadoRouter.post("/tpChamado/adicona", tpChamadoService.adicionanovotpChamado);
+// POST / - criar novo tipo de chamado
+tpChamadoRouter.post("/", tpChamadoService.criaTpChamado);
 
-//GET /tpChamadoC/lista - retorna todos os tpChamado de chamados cadastrados
-tpChamadoRouter.get("/tpChamado/lista", tpChamadoService.retornaTodostpChamado);
+// GET / - listar todos os tipos de chamados
+tpChamadoRouter.get("/", tpChamadoService.listaTpChamado);
 
-//GET /tpChamado/lista/pesquisa - retornar um tpChamado específico
-tpChamadoRouter.get("/tpChamado/lista/pesquisa", tpChamadoService.pesquisatpChamado);
+// GET /pesquisa - pesquisar tipo de chamado
+tpChamadoRouter.get("/pesquisa", tpChamadoService.pesquisaTpChamado);
 
-//PUT /tpChamado/lista/edita - para editar o tpChamado do chamado
-tpChamadoRouter.put("/tpChamado/lista/edita", tpChamadoService.editatpChamado);
+// PUT /:id - atualizar tipo de chamado
+tpChamadoRouter.put("/:id", tpChamadoService.atualizaTpChamado);
 
-//DELETE /tpChamado/lista/edita/deleta - para deletar um tpChamado de chamado
-tpChamadoRouter.delete("/tpChamado/lista/edita/deleta", tpChamadoService.deletatpChamado);
+// DELETE /:id - deletar tipo de chamado
+tpChamadoRouter.delete("/:id", tpChamadoService.deletaTpChamado);
 
 module.exports = tpChamadoRouter;

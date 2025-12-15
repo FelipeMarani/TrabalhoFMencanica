@@ -30,7 +30,7 @@ export default function ListaFuncionario({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/funcionario", {
+      const response = await axios.get("http://localhost:3030/funcionario", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFuncionarios(response.data);
@@ -47,7 +47,7 @@ export default function ListaFuncionario({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este funcionário?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/funcionario/${id}`, {
+        await axios.delete(`http://localhost:3030/funcionario/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarFuncionarios();

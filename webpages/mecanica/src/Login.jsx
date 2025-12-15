@@ -14,15 +14,17 @@ export default function Login({ handleLogin }) {
     async function enviaLogin(event) {
         event.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5173/Login", {
-                useremail: useremail,
-                passwd: passwd,
+            const response = await axios.post("http://localhost:3030/auth/login", {
+                email: useremail,
+                senha: passwd,
             });
             if (response.status >= 200 && response.status <= 300) {
                 //Salva o token JWT na sessão
                 localStorage.setItem("token", response.data.token);
                 //Seta o estado de Login caso tudo certo com a verificação, passando o useremail
-                handleLogin(true, useremail);
+                const emailRetornado = response?.data?.funcionario?.email || useremail;
+                const nomeRetornado = response?.data?.funcionario?.nome || "";
+                handleLogin(true, emailRetornado, nomeRetornado);
             }
             else {
                 //No caso da falha
@@ -34,7 +36,8 @@ export default function Login({ handleLogin }) {
         } catch (error) {
             console.error("Falha na autenticação:", error);
             setOpenMessage(true);
-            setMenssageText("Falha na autenticação");
+            const msg = error?.response?.data?.message || "Falha na autenticação";
+            setMenssageText(msg);
             setMenssageSeverity("error");
         }
     }

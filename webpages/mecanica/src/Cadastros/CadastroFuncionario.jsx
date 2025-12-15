@@ -53,13 +53,13 @@ export default function CadastroFuncionario({ funcionarioEdit, onSuccess }) {
       const token = localStorage.getItem("token");
       if (funcionarioEdit) {
         await axios.put(
-          `http://localhost:3002/funcionario/${funcionarioEdit.id}`,
+          `http://localhost:3030/funcionario/${funcionarioEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Funcionário atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/funcionario", formData, {
+        await axios.post("http://localhost:3030/funcionario", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Funcionário cadastrado com sucesso!");

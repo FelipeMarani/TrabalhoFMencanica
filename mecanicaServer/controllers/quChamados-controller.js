@@ -3,16 +3,16 @@ const quChamadosService = require("../services/quChamado-service");
 
 const quChamadosRouter = express.Router();
 
-//POST /listaChamados/adicona - adicionar um novo chamado a fila
-quChamadosRouter.post("/listaChamados/adicona", quChamadosService.adicionaChamadoFila);
+// POST / - criar nova fila de chamado
+quChamadosRouter.post("/", quChamadosService.criaQuChamado);
 
-//GET /listaChamados - retorna todos os chamados da fila
-quChamadosRouter.get("/listaChamados", quChamadosService.listarTodaFila);
+// GET / - listar todos os chamados da fila
+quChamadosRouter.get("/", quChamadosService.listaQuChamado);
 
-//GET /listaChamados/pesquisa- retornar um chamado da fila em específico
-quChamadosRouter.get("/listaChamados/pesquisa", quChamadosService.pesquisafilaChamado);
+// GET /pesquisa - pesquisar chamado na fila
+quChamadosRouter.get("/pesquisa", quChamadosService.pesquisaQuChamado);
 
-//PUT /listaChamados/edita - para editar o status do chamado
-quChamadosRouter.put("/listaChamados/edita", quChamadosService.editaStatusChamado);
+// PUT /:id - atualizar chamado na fila
+quChamadosRouter.put("/:id", quChamadosService.atualizaQuChamado);
 
 module.exports = quChamadosRouter;

@@ -3,7 +3,7 @@ html,
 body,
 #root {
   height: 100%;
-  background-color: rgba(46, 42, 42, 0.671);
+  background-color: rgba(255, 250, 250, 0.671);
 }
 
 .container {
@@ -24,4 +24,14 @@ body,
   padding: 30px;
   background-color: rgb(255, 255, 255);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* NavBar Home customization */
+.navHome {
+  background-color: #374151 !important; 
+}
+.navHome .MuiTypography-root,
+.navHome .MuiIconButton-root,
+.navHome .MuiButton-root {
+  color: #ffffff !important;
 }

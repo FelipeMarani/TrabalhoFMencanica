@@ -30,7 +30,7 @@ export default function ListaStatusChamado({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/status_chamado", {
+      const response = await axios.get("http://localhost:3030/status_chamado", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setStatusChamados(response.data);
@@ -47,7 +47,7 @@ export default function ListaStatusChamado({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este status de chamado?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/status_chamado/${id}`, {
+        await axios.delete(`http://localhost:3030/status_chamado/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarStatusChamados();

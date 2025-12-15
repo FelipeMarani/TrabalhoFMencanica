@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             id: {
                 type: DataTypes.BIGINT,
                 primaryKey: true,
+                autoIncrement: true,
             },
             descricao: {
                 type: DataTypes.STRING,
@@ -15,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            tableName: "Permissao",
+            tableName: "permissao",
             schema: "public",
             freezeTableName: true,
             timestamps: false,

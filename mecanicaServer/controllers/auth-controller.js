@@ -18,8 +18,8 @@ authRouter.post("/login", async (req, res) => {
 
 		res.status(200).json({ message: "Login efetuado", token, funcionario: { id: funcionario.id, email: funcionario.email, nome: funcionario.nome } });
 	} catch (error) {
-		console.error("Erro no login:", error);
-		res.sendStatus(500);
+		console.error("Erro no login:", error?.message || error);
+		res.status(500).json({ message: "Erro interno no login", detail: error?.message || String(error) });
 	}
 });
 

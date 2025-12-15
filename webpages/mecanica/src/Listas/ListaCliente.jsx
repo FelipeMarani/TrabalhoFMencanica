@@ -29,7 +29,7 @@ export default function ListaCliente({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/cliente", {
+      const response = await axios.get("http://localhost:3030/cliente", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setClientes(response.data);
@@ -46,7 +46,7 @@ export default function ListaCliente({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este cliente?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/cliente/${id}`, {
+        await axios.delete(`http://localhost:3030/cliente/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarClientes();

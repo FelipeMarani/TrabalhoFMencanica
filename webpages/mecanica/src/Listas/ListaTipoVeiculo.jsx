@@ -29,7 +29,7 @@ export default function ListaTipoVeiculo({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/tipo_veiculo", {
+      const response = await axios.get("http://localhost:3030/tipo_veiculo", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTiposVeiculo(response.data);
@@ -46,7 +46,7 @@ export default function ListaTipoVeiculo({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este tipo de veículo?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/tipo_veiculo/${id}`, {
+        await axios.delete(`http://localhost:3030/tipo_veiculo/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarTiposVeiculo();

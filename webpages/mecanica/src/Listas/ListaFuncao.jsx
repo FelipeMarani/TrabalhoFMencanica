@@ -29,7 +29,7 @@ export default function ListaFuncao({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/funcao", {
+      const response = await axios.get("http://localhost:3030/funcao", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFuncoes(response.data);
@@ -46,7 +46,7 @@ export default function ListaFuncao({ onEdit }) {
     if (window.confirm("Deseja realmente excluir esta função?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/funcao/${id}`, {
+        await axios.delete(`http://localhost:3030/funcao/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarFuncoes();

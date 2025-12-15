@@ -28,10 +28,10 @@ export default function CadastroAlinhamentoFuncao({ alinhamentoEdit, onSuccess }
     try {
       const token = localStorage.getItem("token");
       const [funcoesRes, funcionariosRes] = await Promise.all([
-        axios.get("http://localhost:3002/funcao", {
+        axios.get("http://localhost:3030/funcao", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:3002/funcionario", {
+        axios.get("http://localhost:3030/funcionario", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -65,13 +65,13 @@ export default function CadastroAlinhamentoFuncao({ alinhamentoEdit, onSuccess }
       const token = localStorage.getItem("token");
       if (alinhamentoEdit) {
         await axios.put(
-          `http://localhost:3002/alinhamento_funcao/${alinhamentoEdit.id}`,
+          `http://localhost:3030/alinhamento_funcao/${alinhamentoEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Alinhamento atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/alinhamento_funcao", formData, {
+        await axios.post("http://localhost:3030/alinhamento_funcao", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Alinhamento cadastrado com sucesso!");

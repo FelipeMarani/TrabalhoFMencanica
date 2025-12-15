@@ -9,6 +9,7 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { generateId } from "../utils/idGenerator";
 
 export default function CadastroCliente({ clienteEdit, onSuccess }) {
   const getInitialFormData = () => {
@@ -51,13 +52,18 @@ export default function CadastroCliente({ clienteEdit, onSuccess }) {
       const token = localStorage.getItem("token");
       if (clienteEdit) {
         await axios.put(
-          `http://localhost:3002/cliente/${clienteEdit.id}`,
+          `http://localhost:3030/cliente/${clienteEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Cliente atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/cliente", formData, {
+        // Gerar ID para novo cliente
+        const clienteComId = {
+          id: generateId(),
+          ...formData
+        };
+        await axios.post("http://localhost:3030/cliente", clienteComId, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Cliente cadastrado com sucesso!");

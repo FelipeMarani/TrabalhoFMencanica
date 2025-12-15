@@ -3,19 +3,19 @@ const stChamadosService = require("../services/stChamado-service");
 
 const stChamadosRouter = express.Router();
 
-//POST /statusChamado/adicona - adicionar um novo status de chamado
-stChamadosRouter.post("/statusChamados/adicona", stChamadosService.adicionanovostatus);
+// POST / - criar novo status de chamado
+stChamadosRouter.post("/", stChamadosService.criaStChamado);
 
-//GET /statusChamado/lista - retorna todos os status de chamados cadastrados
-stChamadosRouter.get("/statusChamados/lista", stChamadosService.retornaTodosStatus);
+// GET / - listar todos os status de chamados
+stChamadosRouter.get("/", stChamadosService.listaStChamado);
 
-//GET /statusChamado/lista/pesquisa - retornar um status específico
-stChamadosRouter.get("/listaChamados/pesquisa", stChamadosService.pesquisaStatus);
+// GET /pesquisa - pesquisar status de chamado
+stChamadosRouter.get("/pesquisa", stChamadosService.pesquisaStChamado);
 
-//PUT /statusChamado/lista/edita - para editar o status do chamado
-stChamadosRouter.put("/statusChamados/lista/edita", stChamadosService.editaStatus);
+// PUT /:id - atualizar status de chamado
+stChamadosRouter.put("/:id", stChamadosService.atualizaStChamado);
 
-//DELETE /statusChamado/lista/edita/deleta - para deletar um status de chamado
-stChamadosRouter.delete("/statusChamados/lista/edita/deleta", stChamadosService.deletaStatus);
+// DELETE /:id - deletar status de chamado
+stChamadosRouter.delete("/:id", stChamadosService.deletaStChamado);
 
 module.exports = stChamadosRouter;

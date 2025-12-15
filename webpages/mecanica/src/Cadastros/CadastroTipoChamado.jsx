@@ -41,13 +41,13 @@ export default function CadastroTipoChamado({ tipoChamadoEdit, onSuccess }) {
       const token = localStorage.getItem("token");
       if (tipoChamadoEdit) {
         await axios.put(
-          `http://localhost:3002/tipo_chamado/${tipoChamadoEdit.id}`,
+          `http://localhost:3030/tipo_chamado/${tipoChamadoEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Tipo de chamado atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/tipo_chamado", formData, {
+        await axios.post("http://localhost:3030/tipo_chamado", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Tipo de chamado cadastrado com sucesso!");

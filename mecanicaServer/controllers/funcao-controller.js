@@ -3,19 +3,19 @@ const funcaoService = require("../services/funcao-service");
 
 const funcaoRouter = express.Router();
 
-//POST /funcao/novafuncao - Criar novas funções
-funcaoRouter.post("/funcao/novafuncao", funcaoService.novaFuncao);
+//POST / - Criar novas funções
+funcaoRouter.post("/", funcaoService.novaFuncao);
 
-//GET /funcao/lista - retornar todas as funções cadastradas
-funcaoRouter.get("/funcao/lista", funcaoService.listaFuncao);
+//GET / - retornar todas as funções cadastradas
+funcaoRouter.get("/", funcaoService.listaFuncao);
 
-//GET /funcao/lista/pesquisa - retornar uma função específica
-funcaoRouter.get("/funcao/lista/pesquisa", funcaoService.pesquisaFuncao);
+//GET /pesquisa - retornar uma função específica
+funcaoRouter.get("/pesquisa", funcaoService.pesquisaFuncao);
 
-//PUT /funcao/lista/edita - para editar uma função já cadastrada
-funcaoRouter.put("/funcao/lista/edita", funcaoService.editaFuncao);
+//PUT /:id - para editar uma função já cadastrada
+funcaoRouter.put("/:id", funcaoService.editaFuncao);
 
-//DELETE /funcao/lista/edita/deleta - para remover a função específica
-funcaoRouter.delete("/funcao/lista/edita/deleta", funcaoService.deletaFuncao);
+//DELETE /:id - para remover a função específica
+funcaoRouter.delete("/:id", funcaoService.deletaFuncao);
 
 module.exports = funcaoRouter;

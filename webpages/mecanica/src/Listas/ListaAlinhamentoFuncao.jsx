@@ -29,7 +29,7 @@ export default function ListaAlinhamentoFuncao({ onEdit }) {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3002/alinhamento_funcao", {
+      const response = await axios.get("http://localhost:3030/alinhamento_funcao", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAlinhamentos(response.data);
@@ -46,7 +46,7 @@ export default function ListaAlinhamentoFuncao({ onEdit }) {
     if (window.confirm("Deseja realmente excluir este alinhamento?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3002/alinhamento_funcao/${id}`, {
+        await axios.delete(`http://localhost:3030/alinhamento_funcao/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         carregarAlinhamentos();

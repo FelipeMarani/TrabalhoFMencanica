@@ -3,19 +3,19 @@ const tpVeiculoService = require("../services/tpVeiculo-service");
 
 const tpVeiculoRouter = express.Router();
 
-//POST /tpVeiculo/adicona - adicionar um novo tpVeiculo
-tpVeiculoRouter.post("/tpVeiculo/adicona", tpVeiculoService.adicionanovotpVeiculo);
+// POST / - criar novo tipo de veículo
+tpVeiculoRouter.post("/", tpVeiculoService.criaTpVeiculo);
 
-//GET /tpVeiculo/lista - retorna todos os tpVeiculo cadastrados
-tpVeiculoRouter.get("/tpVeiculo/lista", tpVeiculoService.retornaTodostpVeiculo);
+// GET / - listar todos os tipos de veículos
+tpVeiculoRouter.get("/", tpVeiculoService.listaTpVeiculo);
 
-//GET /tpVeiculo/lista/pesquisa - retornar um tpVeiculo específico
-tpVeiculoRouter.get("/tpVeiculo/lista/pesquisa", tpVeiculoService.pesquisatpVeiculo);
+// GET /pesquisa - pesquisar tipo de veículo
+tpVeiculoRouter.get("/pesquisa", tpVeiculoService.pesquisaTpVeiculo);
 
-//PUT /tpVeiculo/lista/edita - para editar o tpVeiculo
-tpVeiculoRouter.put("/tpVeiculo/lista/edita", tpVeiculoService.editatpVeiculo);
+// PUT /:id - atualizar tipo de veículo
+tpVeiculoRouter.put("/:id", tpVeiculoService.atualizaTpVeiculo);
 
-//DELETE /tpVeiculo/lista/edita/deleta - para deletar um tpVeiculo 
-tpVeiculoRouter.delete("/tpVeiculo/lista/edita/deleta", tpVeiculoService.deletatpVeiculo);
+// DELETE /:id - deletar tipo de veículo
+tpVeiculoRouter.delete("/:id", tpVeiculoService.deletaTpVeiculo);
 
 module.exports = tpVeiculoRouter;

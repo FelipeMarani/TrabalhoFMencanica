@@ -52,9 +52,24 @@ const atualizaChamado = async (req, res) => {
     }
 };
 
+const deletaChamado = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ message: "id é obrigatório" });
+        }
+        await chamadoRepository.deletaChamado(id);
+        res.sendStatus(204);
+    } catch (error) {
+        console.log("Erro ao deletar chamado:", error);
+        res.sendStatus(500);
+    }
+};
+
 module.exports = {
     listaChamados,
     pesquisaChamado,
     novoChamado,
     atualizaChamado,
+    deletaChamado,
 };

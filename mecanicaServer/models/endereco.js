@@ -7,6 +7,7 @@ module.exports = (sequelize, DataType) => {
             id: {
                 type: DataType.INTEGER,
                 primaryKey: true,
+                autoIncrement: true,
             },
             logradouro: DataType.STRING,
             numero: DataType.STRING,
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataType) => {
         },
         {
             sequelize,
-            tableName: "Endereco",
+            tableName: "endereco",
             schema: "public",
             freezeTableName: true,
             timestamps: false,

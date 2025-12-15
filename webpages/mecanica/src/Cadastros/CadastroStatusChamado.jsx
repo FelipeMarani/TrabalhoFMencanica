@@ -41,13 +41,13 @@ export default function CadastroStatusChamado({ statusChamadoEdit, onSuccess }) 
       const token = localStorage.getItem("token");
       if (statusChamadoEdit) {
         await axios.put(
-          `http://localhost:3002/status_chamado/${statusChamadoEdit.id}`,
+          `http://localhost:3030/status_chamado/${statusChamadoEdit.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSnackbarMessage("Status de chamado atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:3002/status_chamado", formData, {
+        await axios.post("http://localhost:3030/status_chamado", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSnackbarMessage("Status de chamado cadastrado com sucesso!");

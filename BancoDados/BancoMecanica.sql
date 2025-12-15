@@ -1,161 +1,166 @@
-Drop table if exists Endereco;
+DROP TABLE IF EXISTS funcionario_permissao;
 
-Drop table if exists Fila_Chamados;
+DROP TABLE IF EXISTS endereco;
 
-Drop table if exists Alinhamento_funcao;
+DROP TABLE IF EXISTS fila_chamados;
 
-Drop table if exists Chamados;
+DROP TABLE IF EXISTS alinhamento_funcao;
 
-Drop table if exists Veiculo;
+DROP TABLE IF EXISTS chamados;
 
-Drop table if exists Cliente;
+DROP TABLE IF EXISTS veiculo;
 
-Drop table if exists Funcionarios;
+DROP TABLE IF EXISTS cliente;
 
-Drop table if exists Funcao;
+DROP TABLE IF EXISTS funcionarios;
 
-Drop table if exists Tipo_Veiculo;
+DROP TABLE IF EXISTS funcao;
 
-Drop table if exists Tipo_Chamado;
+DROP TABLE IF EXISTS tipo_veiculo;
 
-Drop table if exists Status_Chamado;
+DROP TABLE IF EXISTS tipo_chamado;
 
-Create table
-    Funcao (
-        id bigint not null,
-        nome varchar(250) not null,
-        descricao varchar(500) not null,
-        primary key (id)
+DROP TABLE IF EXISTS status_chamado;
+
+DROP TABLE IF EXISTS permissao;
+
+-- Tabela: funcao
+CREATE TABLE
+    funcao (
+        id BIGINT NOT NULL PRIMARY KEY,
+        nome VARCHAR(250) NOT NULL,
+        descricao VARCHAR(500) NOT NULL
     );
 
-Create table
-    Funcionarios (
-        id bigint not null,
-        nome varchar(250) not null,
-        email varchar(150) not null,
-        senha varchar(500) not null,
-        nascimento date not null,
-        CPF varchar(11) not null,
-        RG varchar(9) not null,
-        primary key (id),
-        UNIQUE (email)
+-- Tabela: funcionarios
+CREATE TABLE
+    funcionarios (
+        id BIGINT NOT NULL PRIMARY KEY,
+        nome VARCHAR(250) NOT NULL,
+        email VARCHAR(150) NOT NULL UNIQUE,
+        senha VARCHAR(500) NOT NULL,
+        nascimento DATE NOT NULL,
+        cpf VARCHAR(11) NOT NULL,
+        rg VARCHAR(9) NOT NULL
     );
 
-Create table
-    Alinhamento_funcao (
-        id bigint not null,
-        id_funcao bigint not null,
-        id_funcionario bigint not null,
-        primary key (id),
-        foreign key (id_funcao) references Funcao (id),
-        foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE
+-- Tabela: alinhamento_funcao
+CREATE TABLE
+    alinhamento_funcao (
+        id BIGINT NOT NULL PRIMARY KEY,
+        id_funcao BIGINT NOT NULL,
+        id_funcionario BIGINT NOT NULL,
+        FOREIGN KEY (id_funcao) REFERENCES funcao (id),
+        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id) ON DELETE CASCADE
     );
 
-Create table
-    Endereco (
-        id bigint not null,
-        logradouro varchar(250) not null,
-        numero varchar(10) not null,
-        complemento varchar(100),
-        bairro varchar(100) not null,
-        cidade varchar(100) not null,
-        estado char(2) not null,
-        cep varchar(8) not null,
-        id_funcionario bigint not null,
-        primary key (id),
-        foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE
+-- Tabela: endereco
+CREATE TABLE
+    endereco (
+        id BIGINT NOT NULL PRIMARY KEY,
+        logradouro VARCHAR(250) NOT NULL,
+        numero VARCHAR(10) NOT NULL,
+        complemento VARCHAR(100),
+        bairro VARCHAR(100) NOT NULL,
+        cidade VARCHAR(100) NOT NULL,
+        estado CHAR(2) NOT NULL,
+        cep VARCHAR(8) NOT NULL,
+        id_funcionario BIGINT NOT NULL,
+        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id) ON DELETE CASCADE
     );
 
-Create table
-    Permissao (
-        id bigint not null,
-        descricao varchar(500) not null,
-        primary key (id)
+-- Tabela: permissao
+CREATE TABLE
+    permissao (
+        id BIGINT NOT NULL PRIMARY KEY,
+        descricao VARCHAR(500) NOT NULL
     );
 
-create table
-    Funcionario_Permissao (
-        email varchar NOT NULL,
-        id_permissao bigint NOT NULL,
+-- Tabela: funcionario_permissao
+CREATE TABLE
+    funcionario_permissao (
+        email VARCHAR NOT NULL,
+        id_permissao BIGINT NOT NULL,
         PRIMARY KEY (email, id_permissao),
-        CONSTRAINT FK_usuario_permissao_usuario FOREIGN KEY (email) REFERENCES Funcionarios (email),
-        CONSTRAINT FK_usuario_permissao_permissao FOREIGN KEY (id_permissao) REFERENCES Permissao (id)
+        CONSTRAINT fk_usuario_permissao_usuario FOREIGN KEY (email) REFERENCES funcionarios (email),
+        CONSTRAINT fk_usuario_permissao_permissao FOREIGN KEY (id_permissao) REFERENCES permissao (id)
     );
 
-create table
-    Cliente (
-        id bigint not null,
-        nome varchar(250) not null,
-        email varchar(250) not null,
-        nascimento date not null,
-        cpf varchar(11) not null,
-        rg varchar(9),
-        primary key (id)
+-- Tabela: cliente
+CREATE TABLE
+    cliente (
+        id BIGINT NOT NULL PRIMARY KEY,
+        nome VARCHAR(250) NOT NULL,
+        email VARCHAR(250) NOT NULL,
+        nascimento DATE NOT NULL,
+        cpf VARCHAR(11) NOT NULL,
+        rg VARCHAR(9)
     );
 
-create table
-    Tipo_Veiculo (
-        id bigint not null,
-        nome varchar(250) not null,
-        primary key (id)
+-- Tabela: tipo_veiculo
+CREATE TABLE
+    tipo_veiculo (
+        id BIGINT NOT NULL PRIMARY KEY,
+        nome VARCHAR(250) NOT NULL
     );
 
-Create table
-    Veiculo (
-        id bigint not null,
-        modelo varchar(250) not null,
-        placa varchar(10) not null,
-        marca varchar(100) not null,
-        id_Cliente bigint not null,
-        id_TpVeiculo bigint not null,
-        primary key (id),
-        foreign key (id_Cliente) references Cliente (id) ON DELETE CASCADE,
-        foreign key (id_TpVeiculo) references Tipo_Veiculo (id)
+-- Tabela: veiculo
+CREATE TABLE
+    veiculo (
+        id BIGINT NOT NULL PRIMARY KEY,
+        modelo VARCHAR(250) NOT NULL,
+        placa VARCHAR(10) NOT NULL,
+        marca VARCHAR(100) NOT NULL,
+        id_cliente BIGINT NOT NULL,
+        id_tpveiculo BIGINT NOT NULL,
+        FOREIGN KEY (id_cliente) REFERENCES cliente (id) ON DELETE CASCADE,
+        FOREIGN KEY (id_tpveiculo) REFERENCES tipo_veiculo (id)
     );
 
-create table
-    Tipo_Chamado (
-        id bigint not null,
-        descricao varchar(250) not null,
-        primary key (id)
+-- Tabela: tipo_chamado
+CREATE TABLE
+    tipo_chamado (
+        id BIGINT NOT NULL PRIMARY KEY,
+        descricao VARCHAR(250) NOT NULL
     );
 
-Create table
-    Chamados (
-        id bigint not null,
-        descricao varchar(500) not null,
-        img_Veiculo Bytea,
-        id_Cliente bigint not null,
-        id_Veiculo bigint not null,
-        id_TPchamado bigint not null,
-        primary key (id),
-        foreign key (id_Cliente) references Cliente (id),
-        foreign key (id_Veiculo) references Veiculo (id),
-        foreign key (id_TPchamado) references Tipo_Chamado (id)
+-- Tabela: chamados
+CREATE TABLE
+    chamados (
+        id BIGINT NOT NULL PRIMARY KEY,
+        descricao VARCHAR(500) NOT NULL,
+        img_veiculo BYTEA,
+        id_cliente BIGINT NOT NULL,
+        id_veiculo BIGINT NOT NULL,
+        id_tpchamado BIGINT NOT NULL,
+        FOREIGN KEY (id_cliente) REFERENCES cliente (id),
+        FOREIGN KEY (id_veiculo) REFERENCES veiculo (id),
+        FOREIGN KEY (id_tpchamado) REFERENCES tipo_chamado (id)
     );
 
-Create table
-    Status_Chamado (
-        id bigint not null,
-        descricao varchar(250) not null,
-        primary key (id)
+-- Tabela: status_chamado
+CREATE TABLE
+    status_chamado (
+        id BIGINT NOT NULL PRIMARY KEY,
+        descricao VARCHAR(250) NOT NULL
     );
 
-Create table
-    Fila_Chamados (
-        id bigint not null,
-        id_funcionario bigint not null,
-        id_Chamado bigint not null,
-        id_stChamado bigint not null,
-        primary key (id),
-        foreign key (id_funcionario) references Funcionarios (id) ON DELETE CASCADE,
-        foreign key (id_Chamado) references Chamados (id) ON DELETE CASCADE,
-        foreign key (id_stChamado) references Status_Chamado (id) ON DELETE CASCADE
+-- Tabela: fila_chamados
+CREATE TABLE
+    fila_chamados (
+        id BIGINT NOT NULL PRIMARY KEY,
+        id_funcionario BIGINT NOT NULL,
+        id_chamado BIGINT NOT NULL,
+        id_stchamado BIGINT NOT NULL,
+        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id) ON DELETE CASCADE,
+        FOREIGN KEY (id_chamado) REFERENCES chamados (id) ON DELETE CASCADE,
+        FOREIGN KEY (id_stchamado) REFERENCES status_chamado (id) ON DELETE CASCADE
     );
 
-Insert into
-    Funcao (id, nome, descricao)
-Values
+-- Inserir Funções
+INSERT INTO
+    funcao (id, nome, descricao)
+VALUES
     (1, 'Gerente', 'Gerencia de operações da empresa'),
     (
         2,
@@ -183,9 +188,10 @@ Values
         'Realiza serviços de troca, manutenção e balanceamento de pneus dos veículos'
     );
 
-Insert into
-    Funcionarios (id, nome, email, senha, nascimento, CPF, RG)
-Values
+-- Inserir Funcionários
+INSERT INTO
+    funcionarios (id, nome, email, senha, nascimento, cpf, rg)
+VALUES
     (
         1,
         'Felipe Silva',
@@ -196,8 +202,9 @@ Values
         '123456789'
     );
 
-Insert into
-    Endereco (
+-- Inserir Endereço
+INSERT INTO
+    endereco (
         id,
         logradouro,
         numero,
@@ -208,7 +215,7 @@ Insert into
         cep,
         id_funcionario
     )
-Values
+VALUES
     (
         1,
         'Rua B, Travessa da Avenida Chico Mendes',
@@ -221,14 +228,16 @@ Values
         1
     );
 
-Insert into
-    Alinhamento_funcao (id, id_funcao, id_funcionario)
-values
+-- Inserir Alinhamento de Função
+INSERT INTO
+    alinhamento_funcao (id, id_funcao, id_funcionario)
+VALUES
     (1, 1, 1);
 
-Insert into
-    Tipo_Chamado (id, descricao)
-Values
+-- Inserir Tipos de Chamado
+INSERT INTO
+    tipo_chamado (id, descricao)
+VALUES
     (1, 'Manutenção Preventiva'),
     (2, 'Manutenção Corretiva'),
     (3, 'Reparação de Colisão'),
@@ -238,18 +247,20 @@ Values
     (7, 'Serviço de Lavagem e Detalhamento'),
     (8, 'Troca e Reparação de Pneus');
 
-Insert into
-    Tipo_Veiculo (id, nome)
-Values
+-- Inserir Tipos de Veículo
+INSERT INTO
+    tipo_veiculo (id, nome)
+VALUES
     (1, 'Carro'),
     (2, 'Moto'),
     (3, 'Carro esportivo'),
     (4, 'Caminhonete'),
     (5, 'Moto-aquática');
 
-Insert into
-    Status_Chamado (id, descricao)
-values
+-- Inserir Status de Chamado
+INSERT INTO
+    status_chamado (id, descricao)
+VALUES
     (1, 'Aberto'),
     (2, 'Em Andamento'),
     (3, 'Concluído'),
@@ -259,16 +270,18 @@ values
     (7, 'Em Espera'),
     (8, 'Reaberto');
 
-Insert into
-    Permissao (id, descricao)
-Values
+-- Inserir Permissões
+INSERT INTO
+    permissao (id, descricao)
+VALUES
     (1, 'Gerencia'),
     (2, 'Atendente'),
     (3, 'Rh'),
     (4, 'Mecanico'),
     (5, 'Estagiário');
 
-Insert into
-    Funcionario_Permissao (email, id_permissao)
-Values
+-- Inserir Associações de Permissão
+INSERT INTO
+    funcionario_permissao (email, id_permissao)
+VALUES
     ('felipesilva@gmail.com', 1);
