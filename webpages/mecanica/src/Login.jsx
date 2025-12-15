@@ -14,6 +14,10 @@ export default function Login({ handleLogin }) {
     async function enviaLogin(event) {
         event.preventDefault();
         try {
+            // Limpar cache antes de fazer login
+            localStorage.clear();
+            sessionStorage.clear();
+            
             const response = await axios.post("http://localhost:3030/auth/login", {
                 email: useremail,
                 senha: passwd,

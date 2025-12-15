@@ -47,6 +47,33 @@ export default function App() {
   const [exibeCadastro, setExibecadastros] = useState(false);
   const [exibeListas, setExibeListas] = useState(false);
   const [selectedPage, setSelectedPage] = useState("Home");
+
+  // Configurar interceptor do axios para lidar com erros de autenticação
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        // Se receber 401 (não autorizado), limpar cache e deslogar
+        if (error.response && error.response.status === 401) {
+          console.log("Sessão expirada ou inválida, limpando cache...");
+          localStorage.clear();
+          sessionStorage.clear();
+          setIsLoggedIn(false);
+          setUserEmail("");
+          setUserName("");
+          setUserCargo("");
+          setUserFuncao("");
+          setPermissoes([]);
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    // Cleanup: remover interceptor quando componente desmontar
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, []);
   const allCadastros = [
     "Alinhamento de Função",
     "Chamado",
@@ -81,13 +108,24 @@ export default function App() {
       // Tenta decodificar o token para obter o email do usuário
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
+
+        // Verifica se o token está expirado
+        if (payload.exp && payload.exp * 1000 < Date.now()) {
+          console.log("Token expirado, limpando cache...");
+          localStorage.clear();
+          sessionStorage.clear();
+          return;
+        }
+
         if (payload.username) {
           setUserEmail(payload.username);
           setIsLoggedIn(true);
         }
       } catch (error) {
         console.error("Erro ao decodificar token:", error);
-        localStorage.removeItem("token");
+        // Token inválido ou corrompido, limpar tudo
+        localStorage.clear();
+        sessionStorage.clear();
       }
     }
   }, []);
@@ -102,7 +140,7 @@ export default function App() {
       });
       console.log(response.data.permissoes);
       setPermissoes(response.data.permissoes);
-      
+
       // Buscar dados do funcionário para obter a função
       const funcionarioResponse = await axios.get(`http://localhost:3030/funcionario/pesquisa?termoBusca=${email}`, {
         headers: {
@@ -161,6 +199,13 @@ export default function App() {
 
   const handleLogin = (success, useremail = null, username = null) => {
     if (success) {
+      // Limpar dados do usuário anterior antes de logar o novo
+      setUserEmail("");
+      setUserName("");
+      setUserCargo("");
+      setUserFuncao("");
+      setPermissoes([]);
+
       // Se o username foi passado, usa ele, senão tenta decodificar do token
       if (useremail) {
         setUserEmail(useremail);
@@ -185,19 +230,30 @@ export default function App() {
       setUserName("");
       setUserCargo("");
       setUserFuncao("");
-      localStorage.removeItem("token");
+      setPermissoes([]);
+      localStorage.clear();
+      sessionStorage.clear();
     }
   };
 
   const handleLogout = () => {
+    // Limpar todos os estados
     setIsLoggedIn(false);
     setUserEmail("");
     setUserName("");
     setUserCargo("");
     setUserFuncao("");
     setPermissoes([]);
-    localStorage.removeItem("token");
     setSelectedPage("Home");
+
+    // Limpar completamente localStorage
+    localStorage.clear();
+
+    // Limpar completamente sessionStorage
+    sessionStorage.clear();
+
+    // Forçar reload da página para limpar cache do React
+    window.location.href = "/";
   };
 
   const roleSource = [userFuncao, userCargo].find((v) => typeof v === "string" && v.trim());
@@ -310,24 +366,24 @@ export default function App() {
 
   const CurrentPage = pageMap[selectedPage];
 
-  	// Se não estiver logado, mostra a tela de login
-	if (!isLoggedIn) {
-		return (
-			<Box
-				display="flex"
-				justifyContent="center"
-				alignItems="center"
-				minHeight="100vh"
-			>
-				<Stack spacing={2} alignItems="center" className="Login">
-					<Typography variant="h4" component="h1">
-						Login
-					</Typography>
-					<Login handleLogin={handleLogin} />
-				</Stack>
-			</Box>
-		);
-	}
+  // Se não estiver logado, mostra a tela de login
+  if (!isLoggedIn) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
+        <Stack spacing={2} alignItems="center" className="Login">
+          <Typography variant="h4" component="h1">
+            Login
+          </Typography>
+          <Login handleLogin={handleLogin} />
+        </Stack>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -345,7 +401,7 @@ export default function App() {
       <Box className="container" sx={{ py: 3 }}>
         <Routes>
           <Route path="/" element={selectedPage !== "Home" && CurrentPage ? <CurrentPage /> : null} />
-          
+
           {/* Rotas de Listas */}
           <Route path="/lista-clientes" element={<ListaCliente />} />
           <Route path="/lista-funcionarios" element={<ListaFuncionario />} />
@@ -357,7 +413,7 @@ export default function App() {
           <Route path="/lista-status-chamado" element={<ListaStatusChamado />} />
           <Route path="/lista-tipo-chamado" element={<ListaTipoChamado />} />
           <Route path="/lista-tipo-veiculo" element={<ListaTipoVeiculo />} />
-          
+
           {/* Rotas de Cadastros */}
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />
           <Route path="/cadastro-funcionario" element={<CadastroFuncionario />} />
@@ -369,7 +425,7 @@ export default function App() {
           <Route path="/cadastro-status-chamado" element={<CadastroStatusChamado />} />
           <Route path="/cadastro-tipo-chamado" element={<CadastroTipoChamado />} />
           <Route path="/cadastro-tipo-veiculo" element={<CadastroTipoVeiculo />} />
-          
+
           {/* Rotas de Edição */}
           <Route path="/editar-cliente/:id" element={<EditarCliente />} />
           <Route path="/editar-funcionario/:id" element={<EditarFuncionario />} />
